@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "f/fOR9AmxXDlLaZW1hbPabz/k3HkwnuFtZuYfPscdrMUE/+S73DLzDA0q5Zsj+WqgrcDjmy7t8vTLfmfAinfZw==",
+  "dgSpecHash": "qKpI7bO7xkh8lV76GVPEnTkd8zRGJzgLRNJFzGpTzTH7zUpkHkvwvld1yNUoEq9VluUfRa3dX3lmhV6Ct3jfzw==",
   "success": true,
   "projectFilePath": "D:\\Dev\\Projetos\\AppointifyApi\\Appointify.Api\\Appointify.Api.csproj",
   "expectedPackageFiles": [
@@ -11,7 +11,7 @@
     "C:\\Users\\Pichau\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.18\\microsoft.entityframeworkcore.7.0.18.nupkg.sha512",
     "C:\\Users\\Pichau\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.18\\microsoft.entityframeworkcore.abstractions.7.0.18.nupkg.sha512",
     "C:\\Users\\Pichau\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.18\\microsoft.entityframeworkcore.analyzers.7.0.18.nupkg.sha512",
-    "C:\\Users\\Pichau\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.11\\microsoft.entityframeworkcore.relational.7.0.11.nupkg.sha512",
+    "C:\\Users\\Pichau\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.18\\microsoft.entityframeworkcore.relational.7.0.18.nupkg.sha512",
     "C:\\Users\\Pichau\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\Pichau\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\Pichau\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
