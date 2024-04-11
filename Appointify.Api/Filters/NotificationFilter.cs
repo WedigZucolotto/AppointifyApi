@@ -18,10 +18,13 @@ namespace Appointify.Api.Filters
         {
             if (_notificationContext.HasNotifications)
             {
-                context.HttpContext.Response.StatusCode = _notificationContext.ErrorCode;
+                var errorCode = _notificationContext.ErrorCode;
+                var notifications = _notificationContext.Notifications;
+
+                context.HttpContext.Response.StatusCode = errorCode;
                 context.HttpContext.Response.ContentType = "application/json";
 
-                var error = new ErrorResponse("An error has occurred", _notificationContext.ErrorCode, _notificationContext.Notifications);
+                var error = new ErrorResponse("An error has occurred", errorCode, notifications);
                 var serializedError = JsonConvert.SerializeObject(error);
 
                 await context.HttpContext.Response.WriteAsync(serializedError);

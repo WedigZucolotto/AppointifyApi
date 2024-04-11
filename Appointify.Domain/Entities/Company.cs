@@ -1,4 +1,6 @@
-﻿namespace Appointify.Domain.Entities
+﻿using System.Collections.ObjectModel;
+
+namespace Appointify.Domain.Entities
 {
     public class Company : Entity
     {
@@ -6,6 +8,6 @@
 
         public TimeSpan Interval { get; set; }
 
-        public IEnumerable<User> Users { get; set; }
+        public ICollection<User> Users { get; set; } = new Collection<User>();
     }
 }

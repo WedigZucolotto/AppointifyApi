@@ -46,3 +46,8 @@ D:\Dev\Projetos\AppointifyApi\Appointify.Api\obj\Debug\net7.0\refint\Appointify.
 D:\Dev\Projetos\AppointifyApi\Appointify.Api\obj\Debug\net7.0\Appointify.Api.pdb
 D:\Dev\Projetos\AppointifyApi\Appointify.Api\obj\Debug\net7.0\Appointify.Api.genruntimeconfig.cache
 D:\Dev\Projetos\AppointifyApi\Appointify.Api\obj\Debug\net7.0\ref\Appointify.Api.dll
+D:\Dev\Projetos\AppointifyApi\Appointify.Api\bin\Debug\net7.0\Appointify.Application.deps.json
+D:\Dev\Projetos\AppointifyApi\Appointify.Api\bin\Debug\net7.0\Appointify.Application.runtimeconfig.json
+D:\Dev\Projetos\AppointifyApi\Appointify.Api\bin\Debug\net7.0\Appointify.Application.exe
+D:\Dev\Projetos\AppointifyApi\Appointify.Api\bin\Debug\net7.0\Appointify.Application.dll
+D:\Dev\Projetos\AppointifyApi\Appointify.Api\bin\Debug\net7.0\Appointify.Application.pdb

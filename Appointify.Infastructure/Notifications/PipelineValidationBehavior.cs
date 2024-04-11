@@ -32,7 +32,7 @@ namespace Appointify.Infastructure.Notifications
                 _notificationContext.AddBadRequest(error.ErrorMessage);
             }
 
-            return Task.FromResult(default(TResponse));
+            return default;
         }
     }
 }

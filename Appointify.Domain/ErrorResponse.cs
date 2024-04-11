@@ -6,9 +6,9 @@
 
         public int Status { get; set; }
 
-        public IReadOnlyCollection<string> Errors { get; set; }
+        public ICollection<string> Errors { get; set; }
 
-        public ErrorResponse(string title, int status, IReadOnlyCollection<string> errors)
+        public ErrorResponse(string title, int status, ICollection<string> errors)
         {
             Title = title;
             Status = status;

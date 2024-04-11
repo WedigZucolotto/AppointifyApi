@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Appointify.Application.Queries.Events.Day;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Appointify.Api.Controllers
@@ -14,12 +15,11 @@ namespace Appointify.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet()]
-        public async Task<IActionResult> GetEventsAsync()
+        [HttpGet("day")]
+        public async Task<IActionResult> GetDayEventsAsync([FromQuery] GetDayEventsQuery query)
         {
-            //var events = await _mediator.Send();
-            //return Ok(events);
-            return Ok();
+            var events = await _mediator.Send(query);
+            return Ok(events);
         }
     }
 }

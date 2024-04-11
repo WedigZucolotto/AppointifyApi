@@ -4,9 +4,9 @@ namespace Appointify.Infastructure.Notifications
 {
     public class NotificationContext : INotificationContext
     {
-        private readonly List<string> _notifications = new List<string>();
+        private readonly List<string> _notifications = new();
 
-        public IReadOnlyCollection<string> Notifications => _notifications;
+        public ICollection<string> Notifications => _notifications;
 
         public bool HasNotifications => _notifications.Any();
 

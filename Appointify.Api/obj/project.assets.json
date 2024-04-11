@@ -431,6 +431,22 @@
           "Microsoft.AspNetCore.App"
         ]
       },
+      "Appointify.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "FluentValidation": "11.9.0",
+          "MediatR": "12.2.0",
+          "Microsoft.EntityFrameworkCore.Relational": "7.0.18",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.11"
+        },
+        "compile": {
+          "bin/placeholder/Appointify.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Appointify.Application.dll": {}
+        }
+      },
       "Appointify.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
@@ -1270,6 +1286,11 @@
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
+    "Appointify.Application/1.0.0": {
+      "type": "project",
+      "path": "../Appointify.Application/Appointify.Application.csproj",
+      "msbuildProject": "../Appointify.Application/Appointify.Application.csproj"
+    },
     "Appointify.Domain/1.0.0": {
       "type": "project",
       "path": "../AppointifyDomain/Appointify.Domain.csproj",
@@ -1278,6 +1299,7 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "Appointify.Application >= 1.0.0",
       "Appointify.Domain >= 1.0.0",
       "FluentValidation >= 11.9.0",
       "MediatR >= 12.2.0",
@@ -1316,6 +1338,9 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
+            "D:\\Dev\\Projetos\\AppointifyApi\\Appointify.Application\\Appointify.Application.csproj": {
+              "projectPath": "D:\\Dev\\Projetos\\AppointifyApi\\Appointify.Application\\Appointify.Application.csproj"
+            },
             "D:\\Dev\\Projetos\\AppointifyApi\\Appointify.Domain\\Appointify.Domain.csproj": {
               "projectPath": "D:\\Dev\\Projetos\\AppointifyApi\\Appointify.Domain\\Appointify.Domain.csproj"
             },

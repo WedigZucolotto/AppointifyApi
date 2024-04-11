@@ -43,6 +43,7 @@ namespace Appointify.Infastructure
                 .Where(e => e.State is EntityState.Added or EntityState.Modified)
                 .Where(e => e.Entity is Entity);
 
+            //tentar pegar do Ihttpcontext
             var userId = _httpContextAccessor?.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var userIdConverted = userId != null ? Guid.Parse(userId) : Guid.Empty;
 
@@ -59,27 +60,27 @@ namespace Appointify.Infastructure
                 entity.ModifiedAt = DateTime.UtcNow;
                 entity.ModifiedBy = userIdConverted;
 
-                ConvertDatesToUtc(entity);
+                //ConvertDatesToUtc(entity);
             }
 
             await SaveChangesAsync();
         }
 
-        private void ConvertDatesToUtc(Entity entity)
-        {
-            var properties = entity.GetType().GetProperties()
-                .Where(prop => prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(DateTime?));
+        //private void ConvertDatesToUtc(Entity entity)
+        //{
+        //    var properties = entity.GetType().GetProperties()
+        //        .Where(prop => prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(DateTime?));
 
-            foreach (var prop in properties)
-            {
-                var value = (DateTime?)prop.GetValue(entity);
+        //    foreach (var prop in properties)
+        //    {
+        //        var value = (DateTime?)prop.GetValue(entity);
 
-                if (value != null)
-                {
-                    prop.SetValue(entity, value.Value.ToUniversalTime());
-                }
-            }
-        }
+        //        if (value != null)
+        //        {
+        //            prop.SetValue(entity, value.Value.ToUniversalTime());
+        //        }
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

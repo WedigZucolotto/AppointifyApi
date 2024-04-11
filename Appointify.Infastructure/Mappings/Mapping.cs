@@ -21,17 +21,15 @@ namespace Appointify.Infastructure.Mappings
                 .HasColumnName("created_at")
                 .IsRequired();
 
-            builder.Property(x => x.CreatedBy)
-                .HasColumnName("created_by")
-                .IsRequired();
-
             builder.Property(x => x.ModifiedAt)
                 .HasColumnName("modified_at")
                 .IsRequired();
 
+            builder.Property(x => x.CreatedBy)
+                .HasColumnName("created_by");
+
             builder.Property(x => x.ModifiedBy)
-                .HasColumnName("modified_by")
-                .IsRequired();
+                .HasColumnName("modified_by");
         }
     }
 }

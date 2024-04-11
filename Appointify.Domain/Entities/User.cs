@@ -1,4 +1,6 @@
-﻿namespace Appointify.Domain.Entities
+﻿using System.Collections.ObjectModel;
+
+namespace Appointify.Domain.Entities
 {
     public class User : Entity
     {
@@ -12,6 +14,6 @@
         
         public Company Company { get; set; } = new Company();
 
-        public IEnumerable<Event> Events { get; set; }
+        public ICollection<Event> Events { get; set; } = new Collection<Event>();
     }
 }
