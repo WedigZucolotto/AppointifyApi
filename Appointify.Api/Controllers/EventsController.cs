@@ -16,9 +16,9 @@ namespace Appointify.Api.Controllers
         }
 
         [HttpGet("day")]
-        public async Task<IActionResult> GetDayEventsAsync([FromQuery] GetDayEventsQuery query)
+        public async Task<IActionResult> GetDayEventsAsync()
         {
-            var events = await _mediator.Send(query);
+            var events = await _mediator.Send(new GetDayEventsQuery());
             return Ok(events);
         }
     }

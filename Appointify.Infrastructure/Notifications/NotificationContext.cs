@@ -1,6 +1,6 @@
 ﻿using Appointify.Domain.Notifications;
 
-namespace Appointify.Infastructure.Notifications
+namespace Appointify.Infrastructure.Notifications
 {
     public class NotificationContext : INotificationContext
     {

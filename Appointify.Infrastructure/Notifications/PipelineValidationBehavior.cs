@@ -2,7 +2,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace Appointify.Infastructure.Notifications
+namespace Appointify.Infrastructure.Notifications
 {
     public class PipelineValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

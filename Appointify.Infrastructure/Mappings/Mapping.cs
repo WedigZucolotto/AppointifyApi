@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
-namespace Appointify.Infastructure.Mappings
+namespace Appointify.Infrastructure.Mappings
 {
     internal abstract class Mapping<T> : IEntityTypeConfiguration<T> where T : Entity
     {

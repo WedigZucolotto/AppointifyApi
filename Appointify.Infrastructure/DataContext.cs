@@ -1,6 +1,6 @@
 ﻿using Appointify.Domain.Entities;
 using Appointify.Domain;
-using Appointify.Infastructure.Mappings;
+using Appointify.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

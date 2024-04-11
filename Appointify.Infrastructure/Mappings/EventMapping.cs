@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Appointify.Infastructure.Mappings
+namespace Appointify.Infrastructure.Mappings
 {
     internal sealed class EventMapping : Mapping<Event>
     {
