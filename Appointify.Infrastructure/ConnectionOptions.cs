@@ -1,4 +1,4 @@
-﻿namespace Appointify.Infastructure
+﻿namespace Appointify.Infrastructure
 {
     public class ConnectionOptions
     {

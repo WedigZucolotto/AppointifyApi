@@ -1,7 +1,8 @@
 ﻿using Appointify.Domain.Entities;
 using Appointify.Domain.Repositories;
+using Appointify.Infrastructure;
 
-namespace Appointify.Infastructure.Repositories
+namespace Appointify.Infrastructure.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {

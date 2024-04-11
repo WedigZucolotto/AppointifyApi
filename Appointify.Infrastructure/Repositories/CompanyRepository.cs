@@ -1,7 +1,7 @@
 ﻿using Appointify.Domain.Entities;
 using Appointify.Domain.Repositories;
 
-namespace Appointify.Infastructure.Repositories
+namespace Appointify.Infrastructure.Repositories
 {
     public class CompanyRepository : Repository<Company>, ICompanyRepository
     {

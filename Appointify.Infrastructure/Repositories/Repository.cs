@@ -2,7 +2,7 @@
 using Appointify.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Appointify.Infastructure.Repositories
+namespace Appointify.Infrastructure.Repositories
 {
     public class Repository<TEntity> where TEntity : Entity
     {

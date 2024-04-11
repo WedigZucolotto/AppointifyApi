@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
-namespace Appointify.Infastructure
+namespace Appointify.Infrastructure
 {
     public class DataContext : DbContext, IUnitOfWork
     {
