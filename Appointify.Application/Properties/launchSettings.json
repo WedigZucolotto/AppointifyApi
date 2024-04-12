@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Appointify.Application": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
