@@ -14,7 +14,8 @@
       "commandName": "Project",
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "CONNECTION_STRING": "Host=ep-sweet-wind-a41kq1cm-pooler.us-east-1.aws.neon.tech;Port=5432;Database=verceldb;Username=default;Password=HAYoV7zIdZK3;"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7185;http://localhost:5183"

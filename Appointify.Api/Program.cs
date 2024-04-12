@@ -44,8 +44,6 @@ builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateEventCommandValidator>();
 
-builder.Services.Configure<ConnectionOptions>(builder.Configuration.GetSection("ConnectionString"));
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

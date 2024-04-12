@@ -12,21 +12,22 @@ namespace Appointify.Infrastructure
     public class DataContext : DbContext, IUnitOfWork
     {
         //private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ConnectionOptions _connectionOptions;
 
         public DataContext(
-            DbContextOptions<DataContext> options,
-            //IHttpContextAccessor httpContextAccessor,
-            IOptions<ConnectionOptions> connectionOptions)
+            DbContextOptions<DataContext> options)
+            //IHttpContextAccessor httpContextAccessor,)
             : base(options)
         {
             //_httpContextAccessor = httpContextAccessor;
-            _connectionOptions = connectionOptions.Value;
+            //_connectionOptions = connectionOptions.Value;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_connectionOptions.DefaultConnection);
+            //DotNetEnv.Env.Load();
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+
+            optionsBuilder.UseNpgsql(connectionString);
             base.OnConfiguring(optionsBuilder);
         }
 
