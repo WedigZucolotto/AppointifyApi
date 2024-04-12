@@ -1,4 +1,4 @@
 bin/
 obj/
 /.vs
-Appointify.Api/appsettings.Development.json
+**/appsettings.Development.json

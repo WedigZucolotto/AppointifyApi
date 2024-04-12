@@ -11,16 +11,16 @@ namespace Appointify.Infrastructure
 {
     public class DataContext : DbContext, IUnitOfWork
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        //private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ConnectionOptions _connectionOptions;
 
         public DataContext(
             DbContextOptions<DataContext> options,
-            IHttpContextAccessor httpContextAccessor,
+            //IHttpContextAccessor httpContextAccessor,
             IOptions<ConnectionOptions> connectionOptions)
             : base(options)
         {
-            _httpContextAccessor = httpContextAccessor;
+            //_httpContextAccessor = httpContextAccessor;
             _connectionOptions = connectionOptions.Value;
         }
 
@@ -44,8 +44,8 @@ namespace Appointify.Infrastructure
                 .Where(e => e.Entity is Entity);
 
             //tentar pegar do Ihttpcontext
-            var userId = _httpContextAccessor?.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var userIdConverted = userId != null ? Guid.Parse(userId) : Guid.Empty;
+            //var userId = _httpContextAccessor?.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //var userIdConverted = userId != null ? Guid.Parse(userId) : Guid.Empty;
 
             foreach (var entry in modifiedEntries)
             {
@@ -54,11 +54,11 @@ namespace Appointify.Infrastructure
                 if (entry.State == EntityState.Added)
                 {
                     entity.CreatedAt = DateTime.UtcNow;
-                    entity.CreatedBy = userIdConverted;
+                    //entity.CreatedBy = userIdConverted;
                 }
 
                 entity.ModifiedAt = DateTime.UtcNow;
-                entity.ModifiedBy = userIdConverted;
+                //entity.ModifiedBy = userIdConverted;
 
                 //ConvertDatesToUtc(entity);
             }
@@ -87,6 +87,8 @@ namespace Appointify.Infrastructure
             modelBuilder.ApplyConfiguration(new CompanyMapping());
             modelBuilder.ApplyConfiguration(new UserMapping());
             modelBuilder.ApplyConfiguration(new EventMapping());
+            modelBuilder.ApplyConfiguration(new PlanMapping());
+            modelBuilder.ApplyConfiguration(new ServiceMapping());
         }
     }
 }

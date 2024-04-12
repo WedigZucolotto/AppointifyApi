@@ -4,10 +4,12 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>ecff6f1d-0b37-4399-bf04-2041211edba1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.18" />
@@ -20,7 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Appointify.Application\Appointify.Application.csproj" />
     <ProjectReference Include="..\Appointify.Domain\Appointify.Domain.csproj" />
-    <ProjectReference Include="..\AppointifyDomain\Appointify.Domain.csproj" />
+    <ProjectReference Include="..\Appointify.Infrastructure\Appointify.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

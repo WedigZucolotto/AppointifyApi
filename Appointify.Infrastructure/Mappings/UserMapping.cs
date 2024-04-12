@@ -8,7 +8,7 @@ namespace Appointify.Infrastructure.Mappings
     {
         public override void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("users");
+            builder.ToTable("user");
 
             builder.Property(u => u.Name)
                .HasColumnName("name")
@@ -29,6 +29,9 @@ namespace Appointify.Infrastructure.Mappings
             builder.HasOne(u => u.Company)
                 .WithMany(c => c.Users)
                 .HasForeignKey(b => b.CompanyId);
+
+            builder.HasMany(u => u.Events)
+                .WithOne(e => e.User);
 
             base.Configure(builder);
         }

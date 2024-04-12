@@ -1,4 +1,4 @@
-﻿using Appointify.Application.Queries.Events.Day;
+﻿using Appointify.Application.Commands.Events.Create;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +15,11 @@ namespace Appointify.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("day")]
-        public async Task<IActionResult> GetDayEventsAsync()
+        [HttpPost()]
+        public async Task<IActionResult> CreateEventSAsync([FromBody] CreateEventCommand command)
         {
-            var events = await _mediator.Send(new GetDayEventsQuery());
-            return Ok(events);
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }
