@@ -1,6 +1,7 @@
 using Appointify.Api.Filters;
 using Appointify.Application.Commands.Events.Create;
-using Appointify.Application.Queries.Companies;
+using Appointify.Application.Commands.Services.Create;
+using Appointify.Application.Queries.Companies.GetById;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using Appointify.Infrastructure;
@@ -32,15 +33,25 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMediatR(
-    cfg => cfg.RegisterServicesFromAssembly(typeof(GetCompanyByIdQueryHandler).Assembly));
+//builder.Services.AddMediatR(
+//    cfg => cfg.RegisterServicesFromAssembly(typeof(GetCompanyByIdQueryHandler).Assembly));
+
+builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(new[] {
+    typeof(GetCompanyByIdQueryHandler).Assembly,
+    typeof(CreateServiceCommandHandler).Assembly,
+}));
 
 builder.Services.AddDbContext<DataContext>();
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 
 builder.Services.AddScoped<INotificationContext, NotificationContext>();
 
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PipelineValidationBehavior<,>));
 builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
+builder.Services.AddTransient<IServiceRepository, ServiceRepository>();
+builder.Services.AddTransient<IPlanRepository, PlanRepository>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateEventCommandValidator>();
 

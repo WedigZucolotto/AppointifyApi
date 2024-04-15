@@ -13,5 +13,15 @@ namespace Appointify.Domain.Entities
         public Company Company { get; set; } = new Company();
 
         public ICollection<Event> Events { get; set; } = new Collection<Event>();
+
+        public Service() { }
+
+        public Service(string name, TimeSpan interval, Company company)
+        {
+            Name = name;
+            Interval = interval;
+            CompanyId = company.Id;
+            Company = company;
+        }
     }
 }

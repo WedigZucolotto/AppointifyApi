@@ -17,10 +17,6 @@ namespace Appointify.Infrastructure.Mappings
             builder.HasMany(c => c.Users)
                .WithOne(u => u.Company);
 
-            builder.Property(c => c.DayLimit)
-               .HasColumnName("day_limit")
-               .IsRequired();
-
             builder.Property(c => c.PlanId)
                .HasColumnName("plan_id")
                .IsRequired();

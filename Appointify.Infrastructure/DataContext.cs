@@ -3,9 +3,7 @@ using Appointify.Domain;
 using Appointify.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
 namespace Appointify.Infrastructure
 {
@@ -24,7 +22,6 @@ namespace Appointify.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //DotNetEnv.Env.Load();
             var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
             optionsBuilder.UseNpgsql(connectionString);
@@ -36,7 +33,6 @@ namespace Appointify.Infrastructure
         public DbSet<User> Users { get; set; }
 
         public DbSet<Event> Events { get; set; }
-
 
         public virtual async Task CommitAsync()
         {
@@ -60,28 +56,10 @@ namespace Appointify.Infrastructure
 
                 entity.ModifiedAt = DateTime.UtcNow;
                 //entity.ModifiedBy = userIdConverted;
-
-                //ConvertDatesToUtc(entity);
             }
 
             await SaveChangesAsync();
         }
-
-        //private void ConvertDatesToUtc(Entity entity)
-        //{
-        //    var properties = entity.GetType().GetProperties()
-        //        .Where(prop => prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(DateTime?));
-
-        //    foreach (var prop in properties)
-        //    {
-        //        var value = (DateTime?)prop.GetValue(entity);
-
-        //        if (value != null)
-        //        {
-        //            prop.SetValue(entity, value.Value.ToUniversalTime());
-        //        }
-        //    }
-        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

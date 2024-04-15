@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Appointify.Application.Queries.Companies
+namespace Appointify.Application.Queries.Companies.GetById
 {
     public class GetCompanyByIdQuery : IRequest<GetCompanyByIdQueryResponse?>
     {

@@ -5,7 +5,7 @@ using Appointify.Domain.Repositories;
 using MediatR;
 using System.Numerics;
 
-namespace Appointify.Application.Queries.Companies
+namespace Appointify.Application.Queries.Companies.GetById
 {
     public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, GetCompanyByIdQueryResponse?>
     {
@@ -29,7 +29,7 @@ namespace Appointify.Application.Queries.Companies
             }
 
             var minDate = DateTime.Today;
-            var maxDate = minDate.AddDays(company.DayLimit);
+            var maxDate = minDate.AddDays(30);
             var unavaliableDates = GetUnavaliableDates(company);
             var showExtraFields = company.Plan.ShowExtraFields;
             var services = company.Services.Select(s => new ServiceDto(s.Id, s.Name));
@@ -40,7 +40,7 @@ namespace Appointify.Application.Queries.Companies
         private List<DateTime> GetUnavaliableDates(Company company)
         {
             var today = DateTime.Today;
-            var maxDate = today.AddDays(company.DayLimit);
+            var maxDate = today.AddDays(30);
             var unavaliableDates = new List<DateTime>();
 
             for (var day = today; day < maxDate; day = day.AddDays(1))

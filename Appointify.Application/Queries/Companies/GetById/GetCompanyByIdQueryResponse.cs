@@ -1,11 +1,11 @@
 ﻿using Appointify.Application.Queries.Dtos;
 
-namespace Appointify.Application.Queries.Companies
+namespace Appointify.Application.Queries.Companies.GetById
 {
     public class GetCompanyByIdQueryResponse
     {
         public GetCompanyByIdQueryResponse(
-            DateTime minDate, 
+            DateTime minDate,
             DateTime maxDate,
             List<DateTime> unavailableDates,
             bool showExtraFields,

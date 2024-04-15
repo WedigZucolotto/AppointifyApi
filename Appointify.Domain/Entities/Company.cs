@@ -8,8 +8,6 @@ namespace Appointify.Domain.Entities
 
         public ICollection<User> Users { get; set; } = new Collection<User>();
 
-        public int DayLimit { get; set; }
-
         public Guid PlanId { get; set; }
 
         public Plan Plan { get; set; } = new Plan();
@@ -21,5 +19,20 @@ namespace Appointify.Domain.Entities
         public List<Event> Events => Users.SelectMany(u => u.Events).ToList();
 
         public List<Service> Services { get; set; } = new List<Service>();
+
+        public Company(
+            string name,
+            Plan plan, 
+            TimeSpan open, 
+            TimeSpan close)
+        {
+            Name = name;
+            Plan = plan;
+            PlanId = plan.Id;
+            Open = open;
+            Close = close;
+        }
+
+        public Company() { }
     }
 }
