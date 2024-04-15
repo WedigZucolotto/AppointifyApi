@@ -3,7 +3,6 @@ using Appointify.Domain;
 using Appointify.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
 namespace Appointify.Infrastructure
 {
