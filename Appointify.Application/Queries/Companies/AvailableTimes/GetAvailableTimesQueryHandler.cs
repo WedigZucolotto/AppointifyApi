@@ -40,7 +40,7 @@ namespace Appointify.Application.Queries.Companies.AvailableTimes
 
             var isCompanyService = company.Services.Any(s => s.Id == query.ServiceId);
 
-            if (service == null)
+            if (!isCompanyService)
             {
                 _notification.AddBadRequest("Serviço não viculado a empresa.");
                 return default;
@@ -61,12 +61,13 @@ namespace Appointify.Application.Queries.Companies.AvailableTimes
                 events = user.Events;
             }
 
-            var date = DateTime.Parse(query.Date);
+            var intialDate = DateTime.Parse(query.Date);
             var accumulatedTime = new TimeSpan();
             var availableTimes = new List<TimeSpan>();
 
             for (var time = company.Open; time < company.Close; time += TimeSpan.FromMinutes(1))
             {
+                var date = intialDate.Add(time);
                 var _event = events.FirstOrDefault(e => e.Date == date);
 
                 if (_event != null)
