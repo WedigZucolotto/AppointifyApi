@@ -28,7 +28,7 @@ namespace Appointify.Application.Commands.Companies.Create
 
             if (plan == null)
             {
-                _notification.AddNotFound("Plan does not exists");
+                _notification.AddNotFound("Plano não encontrado.");
                 return default;
             }
 

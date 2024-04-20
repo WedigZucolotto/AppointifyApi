@@ -7,7 +7,7 @@ namespace Appointify.Application.Commands.Companies.Delete
         public DeleteCompanyCommandValidator() 
         {
             RuleFor(c => c.Id)
-                .NotEmpty();
+                .NotEmpty().WithMessage("Propriedade obrigatória: Id");
         }
     }
 }

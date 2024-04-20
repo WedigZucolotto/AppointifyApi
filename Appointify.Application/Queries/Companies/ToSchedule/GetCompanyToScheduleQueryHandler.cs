@@ -3,28 +3,27 @@ using Appointify.Domain.Entities;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
-using System.Numerics;
 
-namespace Appointify.Application.Queries.Companies.GetById
+namespace Appointify.Application.Queries.Companies.ToSchedule
 {
-    public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, GetCompanyByIdQueryResponse?>
+    public class GetCompanyToScheduleQueryHandler : IRequestHandler<GetCompanyToScheduleQuery, GetCompanyToScheduleQueryResponse?>
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly INotificationContext _notification;
 
-        public GetCompanyByIdQueryHandler(ICompanyRepository companyRepository, INotificationContext notification)
+        public GetCompanyToScheduleQueryHandler(ICompanyRepository companyRepository, INotificationContext notification)
         {
             _companyRepository = companyRepository;
             _notification = notification;
         }
 
-        public async Task<GetCompanyByIdQueryResponse?> Handle(GetCompanyByIdQuery query, CancellationToken cancellationToken)
+        public async Task<GetCompanyToScheduleQueryResponse?> Handle(GetCompanyToScheduleQuery query, CancellationToken cancellationToken)
         {
             var company = await _companyRepository.GetByIdAsync(query.Id);
 
             if (company == null)
             {
-                _notification.AddNotFound("Company does not exists");
+                _notification.AddNotFound("Empresa não encontrada.");
                 return default;
             }
 
@@ -32,9 +31,9 @@ namespace Appointify.Application.Queries.Companies.GetById
             var maxDate = minDate.AddDays(30);
             var unavaliableDates = GetUnavaliableDates(company);
             var showExtraFields = company.Plan.ShowExtraFields;
-            var services = company.Services.Select(s => new ServiceDto(s.Id, s.Name));
+            var services = company.Services.Select(s => new OptionDto(s.Name, s.Id));
 
-            return new GetCompanyByIdQueryResponse(minDate, maxDate, unavaliableDates, showExtraFields, services);
+            return new GetCompanyToScheduleQueryResponse(minDate, maxDate, unavaliableDates, showExtraFields, services);
         }
 
         private List<DateTime> GetUnavaliableDates(Company company)
@@ -48,7 +47,7 @@ namespace Appointify.Application.Queries.Companies.GetById
                 var date = new DateTime(day.Year, day.Month, day.Day);
                 var hasAvailableTime = false;
 
-                for (var time = company.Open; time < company.Close && !hasAvailableTime; time += TimeSpan.FromMinutes(10))
+                for (var time = company.Open; time < company.Close && !hasAvailableTime; time += TimeSpan.FromMinutes(1))
                 {
                     date += time;
 

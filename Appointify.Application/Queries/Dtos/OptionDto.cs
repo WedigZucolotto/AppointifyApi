@@ -2,14 +2,14 @@
 {
     public class OptionDto
     {
-        public Guid Id { get; set; }
+        public OptionDto(string name, Guid id)
+        {
+            Name = name;
+            Value = id;
+        }
 
         public string Name { get; set; } = string.Empty;
 
-        public OptionDto(Guid id, string name) 
-        {
-            Id = id;
-            Name = name;
-        }
+        public Guid Value { get; set; }
     }
 }

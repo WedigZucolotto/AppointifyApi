@@ -7,7 +7,7 @@ namespace Appointify.Application.Commands.Services.Delete
         public DeleteServiceCommandValidator() 
         {
             RuleFor(c => c.Id)
-                .NotEmpty();
+                .NotEmpty().WithMessage("Propriedade obrigatória: Id");
         }
     }
 }

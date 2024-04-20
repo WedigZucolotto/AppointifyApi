@@ -1,7 +1,8 @@
 ﻿using Appointify.Application.Commands.Services.Create;
 using Appointify.Application.Commands.Services.Delete;
 using Appointify.Application.Commands.Services.Update;
-using Appointify.Application.Queries.Services.GetAll;
+using Appointify.Application.Queries.Services.All;
+using Appointify.Application.Queries.Services.ById;
 using Appointify.Application.Queries.Services.Options;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,13 @@ namespace Appointify.Api.Controllers
         {
             var services = await _mediator.Send(query);
             return Ok(services);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
+        {
+            var service = await _mediator.Send(new GetServiceByIdQuery(id));
+            return Ok(service);
         }
 
         [HttpGet("options")]

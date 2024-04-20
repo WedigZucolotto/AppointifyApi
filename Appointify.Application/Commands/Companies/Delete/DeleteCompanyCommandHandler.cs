@@ -24,7 +24,7 @@ namespace Appointify.Application.Commands.Companies.Delete
             
             if (company == null)
             {
-                _notification.AddNotFound("Company does not exists");
+                _notification.AddNotFound("Empresa não encontrada.");
                 return default;
             }
 

@@ -16,7 +16,7 @@ namespace Appointify.Application.Queries.Plans.Options
         public async Task<IEnumerable<OptionDto>> Handle(GetPlanOptionsQuery query, CancellationToken cancellationToken)
         {
             var services = await _planRepository.GetAllAsync();
-            return services.Select(s => new OptionDto(s.Id, s.Name));
+            return services.Select(s => new OptionDto(s.Name, s.Id));
         }
     }
 }

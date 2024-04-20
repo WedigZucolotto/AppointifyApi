@@ -1,26 +1,26 @@
-﻿namespace Appointify.Application.Queries.Companies.GetAll
+﻿namespace Appointify.Application.Queries.Companies.ById
 {
-    public class GetAllCompaniesResponse
+    public class GetCompanyByIdQueryResponse
     {
-        public GetAllCompaniesResponse(
-            Guid id, 
+        public GetCompanyByIdQueryResponse(
+            Guid id,
+            Guid planId,
             string name,
-            string planName,
             string open,
             string close)
         {
             Id = id;
             Name = name;
-            PlanName = planName;
+            PlanId = planId;
             Open = open;
             Close = close;
         }
 
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public Guid PlanId { get; set; }
 
-        public string PlanName { get; set; }
+        public string Name { get; set; }
 
         public string Open { get; set; }
 

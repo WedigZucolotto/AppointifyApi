@@ -6,6 +6,12 @@ namespace Appointify.Application.Commands.Companies.Update
 {
     public class UpdateCompanyCommand : IRequest<Nothing>
     {
+        public UpdateCompanyCommand WithId(Guid id)
+        {
+            Id = id;
+            return this;
+        }
+
         [JsonIgnore]
         public Guid Id { get; set; }
 
@@ -16,11 +22,5 @@ namespace Appointify.Application.Commands.Companies.Update
         public string? Close { get; set; }
 
         public Guid? PlanId { get; set; }
-
-        public UpdateCompanyCommand WithId(Guid id)
-        {
-            Id = id;
-            return this;
-        }
     }
 }

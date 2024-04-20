@@ -24,7 +24,7 @@ namespace Appointify.Api.Filters
                 context.HttpContext.Response.StatusCode = errorCode;
                 context.HttpContext.Response.ContentType = "application/json";
 
-                var error = new ErrorResponse("An error has occurred", errorCode, notifications);
+                var error = new ErrorResponse("Ocorreu um erro.", errorCode, notifications);
                 var serializedError = JsonConvert.SerializeObject(error);
 
                 await context.HttpContext.Response.WriteAsync(serializedError);

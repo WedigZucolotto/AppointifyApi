@@ -1,9 +1,9 @@
 ﻿using Appointify.Domain.Repositories;
 using MediatR;
 
-namespace Appointify.Application.Queries.Companies.GetAll
+namespace Appointify.Application.Queries.Companies.All
 {
-    public class GetAllCompaniesHandler : IRequestHandler<GetAllCompaniesQuery, IEnumerable<GetAllCompaniesResponse>>
+    public class GetAllCompaniesHandler : IRequestHandler<GetAllCompaniesQuery, IEnumerable<GetAllCompaniesQueryResponse>>
     {
         private readonly ICompanyRepository _companyRepository;
 
@@ -12,15 +12,15 @@ namespace Appointify.Application.Queries.Companies.GetAll
             _companyRepository = companyRepository;
         }
 
-        public async Task<IEnumerable<GetAllCompaniesResponse>> Handle(GetAllCompaniesQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<GetAllCompaniesQueryResponse>> Handle(GetAllCompaniesQuery query, CancellationToken cancellationToken)
         {
             var companies = await _companyRepository
                 .GetAllAsync();
 
             return companies.Select(
-                company => new GetAllCompaniesResponse(
-                    company.Id, 
-                    company.Name, 
+                company => new GetAllCompaniesQueryResponse(
+                    company.Id,
+                    company.Name,
                     company.Plan.Name,
                     company.Open.ToString(@"hh\:mm"),
                     company.Close.ToString(@"hh\:mm")));

@@ -1,14 +1,14 @@
 ﻿using MediatR;
 
-namespace Appointify.Application.Queries.Companies.GetById
+namespace Appointify.Application.Queries.Companies.ById
 {
     public class GetCompanyByIdQuery : IRequest<GetCompanyByIdQueryResponse?>
     {
-        public Guid Id { get; set; }
-
         public GetCompanyByIdQuery(Guid id)
         {
             Id = id;
         }
+
+        public Guid Id { get; set; }
     }
 }

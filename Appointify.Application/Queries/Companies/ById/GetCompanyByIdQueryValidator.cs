@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 
-namespace Appointify.Application.Queries.Companies.GetById
+namespace Appointify.Application.Queries.Companies.ById
 {
     public class GetCompanyByIdQueryValidator : AbstractValidator<GetCompanyByIdQuery>
     {
         public GetCompanyByIdQueryValidator()
         {
             RuleFor(c => c.Id)
-                .NotEmpty();
+                .NotEmpty().WithMessage("Propriedade obrigatória: Id");
         }
     }
 }

@@ -1,24 +1,24 @@
 ﻿using Appointify.Domain.Repositories;
 using MediatR;
 
-namespace Appointify.Application.Queries.Services.GetAll
+namespace Appointify.Application.Queries.Services.All
 {
-    public class GetAllServicesHandler : IRequestHandler<GetAllServicesQuery, IEnumerable<GetAllServicesResponse>>
+    public class GetAllServicesQueryHandler : IRequestHandler<GetAllServicesQuery, IEnumerable<GetAllServicesQueryResponse>>
     {
         private readonly IServiceRepository _serviceRepository;
 
-        public GetAllServicesHandler(IServiceRepository serviceRepository)
+        public GetAllServicesQueryHandler(IServiceRepository serviceRepository)
         {
             _serviceRepository = serviceRepository;
         }
 
-        public async Task<IEnumerable<GetAllServicesResponse>> Handle(GetAllServicesQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<GetAllServicesQueryResponse>> Handle(GetAllServicesQuery query, CancellationToken cancellationToken)
         {
             var services = await _serviceRepository
                 .GetAllFilteredByCompanyAsync(query.CompanyId);
 
             return services.Select(
-                service => new GetAllServicesResponse(
+                service => new GetAllServicesQueryResponse(
                     service.Id,
                     service.Name,
                     service.Interval.ToString(@"hh\:mm")));

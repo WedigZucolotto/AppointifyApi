@@ -1,7 +1,8 @@
 using Appointify.Api.Filters;
 using Appointify.Application.Commands.Events.Create;
 using Appointify.Application.Commands.Services.Create;
-using Appointify.Application.Queries.Companies.GetById;
+using Appointify.Application.Queries.Companies.ById;
+using Appointify.Application.Queries.Companies.ToSchedule;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using Appointify.Infrastructure;
@@ -37,7 +38,7 @@ builder.Services.AddSwaggerGen();
 //    cfg => cfg.RegisterServicesFromAssembly(typeof(GetCompanyByIdQueryHandler).Assembly));
 
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(new[] {
-    typeof(GetCompanyByIdQueryHandler).Assembly,
+    typeof(GetCompanyToScheduleQueryHandler).Assembly,
     typeof(CreateServiceCommandHandler).Assembly,
 }));
 

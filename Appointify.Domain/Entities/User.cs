@@ -14,6 +14,6 @@ namespace Appointify.Domain.Entities
         
         public Company Company { get; set; } = new Company();
 
-        public ICollection<Event> Events { get; set; } = new Collection<Event>();
+        public List<Event> Events { get; set; } = new List<Event>();
     }
 }

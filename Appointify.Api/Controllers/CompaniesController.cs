@@ -1,8 +1,11 @@
 ﻿using Appointify.Application.Commands.Companies.Create;
 using Appointify.Application.Commands.Companies.Delete;
 using Appointify.Application.Commands.Companies.Update;
-using Appointify.Application.Queries.Companies.GetAll;
-using Appointify.Application.Queries.Companies.GetById;
+using Appointify.Application.Queries.Companies.All;
+using Appointify.Application.Queries.Companies.AvailableTimes;
+using Appointify.Application.Queries.Companies.ById;
+using Appointify.Application.Queries.Companies.ToSchedule;
+using Appointify.Application.Queries.Companies.Ids;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +20,20 @@ namespace Appointify.Api.Controllers
         public CompaniesController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var companies = await _mediator.Send(new GetAllCompaniesQuery());
+            return Ok(companies);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
+        {
+            var company = await _mediator.Send(new GetCompanyByIdQuery(id));
+            return Ok(company);
         }
 
         [HttpPost]
@@ -40,17 +57,25 @@ namespace Appointify.Api.Controllers
             return NoContent();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        [HttpGet("ids")]
+        public async Task<IActionResult> GetIdsAsync()
         {
-            var companies = await _mediator.Send(new GetAllCompaniesQuery());
-            return Ok(companies);
+            var ids = await _mediator.Send(new GetAllCompaniesIdsQuery());
+            return Ok(ids);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
+
+        [HttpGet("{id}/available-times")]
+        public async Task<IActionResult> GetAvailableTimesAsync([FromRoute] Guid id, [FromQuery] GetAvailableTimesQuery query)
         {
-            var company = await _mediator.Send(new GetCompanyByIdQuery(id));
+            var times = await _mediator.Send(query.WithId(id));
+            return Ok(times);
+        }
+
+        [HttpGet("{id}/to-schedule")]
+        public async Task<IActionResult> GetScheduleAsync([FromRoute] Guid id)
+        {
+            var company = await _mediator.Send(new GetCompanyToScheduleQuery(id));
             return Ok(company);
         }
     }

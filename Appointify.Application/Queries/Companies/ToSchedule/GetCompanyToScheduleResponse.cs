@@ -1,15 +1,15 @@
 ﻿using Appointify.Application.Queries.Dtos;
 
-namespace Appointify.Application.Queries.Companies.GetById
+namespace Appointify.Application.Queries.Companies.ToSchedule
 {
-    public class GetCompanyByIdQueryResponse
+    public class GetCompanyToScheduleQueryResponse
     {
-        public GetCompanyByIdQueryResponse(
+        public GetCompanyToScheduleQueryResponse(
             DateTime minDate,
             DateTime maxDate,
             List<DateTime> unavailableDates,
             bool showExtraFields,
-            IEnumerable<ServiceDto> services)
+            IEnumerable<OptionDto> services)
         {
             MinDate = minDate;
             MaxDate = maxDate;
@@ -26,6 +26,6 @@ namespace Appointify.Application.Queries.Companies.GetById
 
         public bool ShowExtraFields { get; set; }
 
-        public IEnumerable<ServiceDto> Services { get; set; }
+        public IEnumerable<OptionDto> Services { get; set; }
     }
 }

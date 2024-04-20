@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Appointify.Application.Queries.Companies.GetAll
+namespace Appointify.Application.Queries.Companies.All
 {
     public class GetAllCompaniesQueryValidator : AbstractValidator<GetAllCompaniesQuery>
     {

@@ -24,7 +24,7 @@ namespace Appointify.Application.Commands.Services.Update
             
             if (service == null)
             {
-                _notification.AddNotFound("Service does not exists");
+                _notification.AddNotFound("Serviço não encontrado.");
                 return default;
             }
 

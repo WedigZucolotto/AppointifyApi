@@ -28,7 +28,7 @@ namespace Appointify.Application.Commands.Services.Create
 
             if (company == null)
             {
-                _notification.AddNotFound("Company does not exists");
+                _notification.AddNotFound("Empresa não encontrada.");
                 return default;
             }
 

@@ -27,7 +27,7 @@ namespace Appointify.Application.Commands.Companies.Update
             
             if (company == null)
             {
-                _notification.AddNotFound("Company does not exists");
+                _notification.AddNotFound("Empresa não encontrada.");
                 return default;
             }
 
@@ -37,7 +37,7 @@ namespace Appointify.Application.Commands.Companies.Update
 
                 if (plan == null)
                 {
-                    _notification.AddNotFound("Plan does not exists");
+                    _notification.AddNotFound("Plano não encontrado.");
                     return default;
                 }
 
