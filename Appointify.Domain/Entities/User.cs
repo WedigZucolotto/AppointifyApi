@@ -16,7 +16,11 @@ namespace Appointify.Domain.Entities
         
         public Company Company { get; set; } = new Company();
 
+        public bool IsOwner { get; set; }
+
         public List<Event> Events { get; set; } = new List<Event>();
+
+        public List<Permission> Permissions { get; set; } = new List<Permission>();
 
         public bool IsAvailable(DateTime initialDate, TimeSpan serviceInterval)
         {
@@ -34,13 +38,16 @@ namespace Appointify.Domain.Entities
             string completeName, 
             string password, 
             UserType type, 
-            Guid companyId)
+            Company company,
+            bool isOwner)
         {
             Name = name;
             CompleteName = completeName;
             Password = password;
             Type = type;
-            CompanyId = companyId;
+            Company = company;
+            CompanyId = company.Id;
+            IsOwner = isOwner;
         }
     }
 }

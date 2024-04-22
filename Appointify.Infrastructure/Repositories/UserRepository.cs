@@ -1,6 +1,5 @@
 ﻿using Appointify.Domain.Entities;
 using Appointify.Domain.Repositories;
-using Appointify.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Appointify.Infrastructure.Repositories
@@ -14,6 +13,7 @@ namespace Appointify.Infrastructure.Repositories
         public Task<User?> GetByNameAsync(string name)
         {
             return Query
+                .Include(u => u.Permissions)
                 .FirstOrDefaultAsync(u => u.Name == name);
         }
     }

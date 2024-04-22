@@ -10,13 +10,15 @@ namespace Appointify.Application.Commands.Users.Create
             string password, 
             string completeName,
             int type,
-            Guid companyId)
+            Guid companyId,
+            bool isOwner)
         {
             Name = name;
             Password = password;
             CompleteName = completeName;
             Type = type;
             CompanyId = companyId;
+            IsOwner = isOwner;
         }
 
         public string Name { get; set; } = string.Empty;
@@ -28,5 +30,7 @@ namespace Appointify.Application.Commands.Users.Create
         public int Type { get; set; }
 
         public Guid CompanyId { get; set; }
+
+        public bool IsOwner { get; set; }
     }
 }

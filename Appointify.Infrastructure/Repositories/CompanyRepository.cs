@@ -1,5 +1,6 @@
 ﻿using Appointify.Domain.Entities;
 using Appointify.Domain.Repositories;
+using Appointify.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Appointify.Infrastructure.Repositories
@@ -10,11 +11,19 @@ namespace Appointify.Infrastructure.Repositories
         {
         }
 
-        public override Task<List<Company>> GetAllAsync() => 
-            Query.Include(c => c.Plan).ToListAsync();
+        public Task<List<Company>> GetFilteredAsync(string? name, Guid? planId, Guid? ownerId) => 
+            Query
+                .Include(c => c.Plan)
+                .Include(c => c.Users)
+                .ConditionalFilter(c => c.Name.ToLower().Contains(name.ToLower()), !string.IsNullOrEmpty(name))
+                .ConditionalFilter(c => c.PlanId == planId, planId.HasValue && planId != Guid.Empty)
+                //.ConditionalFilter(c => c.Owner().Id == ownerId, ownerId.HasValue && planId != Guid.Empty)
+                .ToListAsync();
 
         public override Task<Company?> GetByIdAsync(Guid id) => Query
             .Include(c => c.Plan)
-            .Include(c => c.Services).FirstOrDefaultAsync(c => c.Id == id);
+            .Include(c => c.Users)
+            .Include(c => c.Services)
+            .FirstOrDefaultAsync(c => c.Id == id);
     }
 }

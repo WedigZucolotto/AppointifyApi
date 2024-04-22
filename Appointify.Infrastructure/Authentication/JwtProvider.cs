@@ -24,8 +24,16 @@ namespace Appointify.Infrastructure.Authentication
             var claims = new List<Claim> {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Name, user.Name),
-                new Claim(JwtRegisteredClaimNames.Typ, user.Type.ToString()),
+                new Claim("userType", user.Type.ToString()),
+
             };
+
+            var permissions = _context.Permissions.Where(p => p.UserId == user.Id);
+
+            foreach (var permission in permissions)
+            {
+                claims.Add(new("permissions", permission.Name));
+            }
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
 

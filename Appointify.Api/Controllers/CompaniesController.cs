@@ -8,6 +8,7 @@ using Appointify.Application.Queries.Companies.ToSchedule;
 using Appointify.Application.Queries.Companies.Ids;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Appointify.Infrastructure.Authentication;
 
 namespace Appointify.Api.Controllers
 {
@@ -21,15 +22,17 @@ namespace Appointify.Api.Controllers
         {
             _mediator = mediator;
         }
-
+        
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        [HasPermission(Permissions.Companies.GetAll)]
+        public async Task<IActionResult> GetAllAsync([FromQuery] GetAllCompaniesQuery query)
         {
-            var companies = await _mediator.Send(new GetAllCompaniesQuery());
+            var companies = await _mediator.Send(query);
             return Ok(companies);
         }
 
         [HttpGet("{id}")]
+        [HasPermission(Permissions.Companies.GetById)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
             var company = await _mediator.Send(new GetCompanyByIdQuery(id));
@@ -37,6 +40,7 @@ namespace Appointify.Api.Controllers
         }
 
         [HttpPost]
+        //[HasPermission(Permissions.Companies.Create)]
         public async Task<IActionResult> CreateAsync([FromBody] CreateCompanyCommand command)
         {
             await _mediator.Send(command);
@@ -44,6 +48,7 @@ namespace Appointify.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [HasPermission(Permissions.Companies.Update)]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateCompanyCommand command)
         {
             await _mediator.Send(command.WithId(id));
@@ -51,6 +56,7 @@ namespace Appointify.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [HasPermission(Permissions.Companies.Delete)]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             await _mediator.Send(new DeleteCompanyCommand(id));

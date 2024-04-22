@@ -61,6 +61,16 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOpti
 builder.Services.AddAuthenticationExtension(builder.Configuration);
 builder.Services.AddSwaggerAuthentication();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("companies:getAll", policy => policy.RequireClaim("permissions", "companies:getAll"));
+    options.AddPolicy("companies:getById", policy => policy.RequireClaim("permissions", "companies:getById"));
+    options.AddPolicy("companies:create", policy => policy.RequireClaim("permissions", "companies:create"));
+    options.AddPolicy("companies:update", policy => policy.RequireClaim("permissions", "companies:update"));
+    options.AddPolicy("companies:delete", policy => policy.RequireClaim("permissions", "companies:delete"));
+});
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

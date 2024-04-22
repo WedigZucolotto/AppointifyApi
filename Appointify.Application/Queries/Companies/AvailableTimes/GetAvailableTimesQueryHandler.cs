@@ -46,7 +46,7 @@ namespace Appointify.Application.Queries.Companies.AvailableTimes
                 return default;
             }
 
-            var events = company.GetEvents();
+            var events = company.Events();
 
             if (query.UserId != null)
             {

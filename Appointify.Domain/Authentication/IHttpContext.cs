@@ -1,13 +1,9 @@
-﻿using Appointify.Domain.Entities;
+﻿using Appointify.Domain.Entities.Enums;
 
 namespace Appointify.Domain.Authentication
 {
     public interface IHttpContext
     {
-        //Task<User?> GetUserAsync();
-
-        Guid? GetUserId();
-
-        bool? HasPermission(string permission);
+        (Guid? Id, UserType? Type) GetUserClaims();
     }
 }

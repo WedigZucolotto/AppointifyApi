@@ -37,6 +37,8 @@ namespace Appointify.Infrastructure
 
         public DbSet<Service> Services { get; set; }
 
+        public DbSet<Permission> Permissions { get; set; }
+
         public virtual async Task CommitAsync()
         {
             var modifiedEntries = ChangeTracker.Entries()
@@ -50,11 +52,11 @@ namespace Appointify.Infrastructure
                 if (entry.State == EntityState.Added)
                 {
                     entity.CreatedAt = DateTime.UtcNow;
-                    entity.CreatedBy = _httpContext.GetUserId();
+                    entity.CreatedBy = _httpContext.GetUserClaims().Id;
                 }
 
                 entity.ModifiedAt = DateTime.UtcNow;
-                entity.ModifiedBy = _httpContext.GetUserId();
+                entity.ModifiedBy = _httpContext.GetUserClaims().Id;
             }
 
             await SaveChangesAsync();
@@ -67,6 +69,7 @@ namespace Appointify.Infrastructure
             modelBuilder.ApplyConfiguration(new EventMapping());
             modelBuilder.ApplyConfiguration(new PlanMapping());
             modelBuilder.ApplyConfiguration(new ServiceMapping());
+            modelBuilder.ApplyConfiguration(new PermissionMapping());
         }
     }
 }

@@ -15,13 +15,14 @@ namespace Appointify.Application.Queries.Companies.All
         public async Task<IEnumerable<GetAllCompaniesQueryResponse>> Handle(GetAllCompaniesQuery query, CancellationToken cancellationToken)
         {
             var companies = await _companyRepository
-                .GetAllAsync();
+                .GetFilteredAsync(query.Name, query.PlanId, query.OwnerId);
 
             return companies.Select(
                 company => new GetAllCompaniesQueryResponse(
                     company.Id,
                     company.Name,
                     company.Plan.Name,
+                    company.Owner()?.Name,
                     company.Open.ToString(@"hh\:mm"),
                     company.Close.ToString(@"hh\:mm")));
         }

@@ -10,13 +10,17 @@ namespace Appointify.Domain.Entities
 
         public Guid PlanId { get; set; }
 
-        public Plan Plan { get; set; } = new Plan();
+        public Plan Plan { get; set; }
 
         public TimeSpan Open { get; set; }
 
         public TimeSpan Close { get; set; }
 
         public List<Service> Services { get; set; } = new List<Service>();
+
+        public List<Event> Events() => Users.SelectMany(u => u.Events).ToList();
+
+        public User? Owner() => Users.FirstOrDefault(u => u.IsOwner);
 
         public Company(
             string name,
@@ -32,10 +36,5 @@ namespace Appointify.Domain.Entities
         }
 
         public Company() { }
-
-        public List<Event> GetEvents()
-        {
-            return Users.SelectMany(u => u.Events).ToList();
-        }
     }
 }

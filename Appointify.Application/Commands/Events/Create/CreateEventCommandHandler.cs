@@ -47,7 +47,7 @@ namespace Appointify.Application.Commands.Events.Create
                 return default;
             }
 
-            var userId = _httpContext.GetUserId() ?? command.UserId;
+            var userId = _httpContext.GetUserClaims().Id ?? command.UserId;
             var user = await _userRepository.GetByIdAsync(userId ?? Guid.Empty);
 
             var description = $"Marcado por: {command.Name} às {new DateTime()}\nContato: {command.Contact}";

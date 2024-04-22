@@ -11,15 +11,18 @@ namespace Appointify.Application.Commands.Users.Create
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Nothing>
     {
         private readonly IUserRepository _userRepository;
+        private readonly ICompanyRepository _companyRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly INotificationContext _notification;
 
         public CreateUserCommandHandler(
             IUserRepository userRepository,
+            ICompanyRepository companyRepository,
             IPasswordHasher passwordHasher,
             INotificationContext notification)
         {
             _userRepository = userRepository;
+            _companyRepository = companyRepository;
             _passwordHasher = passwordHasher;
             _notification = notification;
         }
@@ -34,14 +37,23 @@ namespace Appointify.Application.Commands.Users.Create
                 return default;
             }
 
+            var company = await _companyRepository.GetByIdAsync(command.CompanyId);
+
+            if (company == null)
+            {
+                _notification.AddNotFound("Empresa não encontrada.");
+                return default;
+            }
+
             var hashedPassword = _passwordHasher.Generate(command.Password);
 
             var newUser = new User(
                 command.Name, 
                 command.CompleteName, 
                 hashedPassword, 
-                (UserType)command.Type, 
-                command.CompanyId);
+                (UserType)command.Type,
+                company,
+                command.IsOwner);
 
             _userRepository.Add(newUser);
             await _userRepository.UnitOfWork.CommitAsync();
