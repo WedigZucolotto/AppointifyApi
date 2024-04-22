@@ -46,7 +46,7 @@ namespace Appointify.Application.Queries.Companies.AvailableTimes
                 return default;
             }
 
-            var events = company.Events;
+            var events = company.GetEvents();
 
             if (query.UserId != null)
             {
@@ -65,6 +65,7 @@ namespace Appointify.Application.Queries.Companies.AvailableTimes
             var accumulatedTime = new TimeSpan();
             var availableTimes = new List<TimeSpan>();
 
+            // quando for da company => fazer for com funcionarios
             for (var time = company.Open; time < company.Close; time += TimeSpan.FromMinutes(1))
             {
                 var date = intialDate.Add(time);

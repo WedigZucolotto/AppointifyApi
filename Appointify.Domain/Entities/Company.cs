@@ -16,8 +16,6 @@ namespace Appointify.Domain.Entities
 
         public TimeSpan Close { get; set; }
 
-        public List<Event> Events => Users.SelectMany(u => u.Events).ToList();
-
         public List<Service> Services { get; set; } = new List<Service>();
 
         public Company(
@@ -34,5 +32,10 @@ namespace Appointify.Domain.Entities
         }
 
         public Company() { }
+
+        public List<Event> GetEvents()
+        {
+            return Users.SelectMany(u => u.Events).ToList();
+        }
     }
 }

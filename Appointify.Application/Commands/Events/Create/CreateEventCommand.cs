@@ -11,6 +11,10 @@ namespace Appointify.Application.Commands.Events.Create
 
         public string Date { get; set; } = string.Empty;
 
+        public Guid ServiceId { get; set; }
+
         public Guid? UserId { get; set; }
+
+        public Guid? CompanyId { get; set; }
     }
 }

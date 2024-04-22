@@ -1,9 +1,8 @@
-﻿using Appointify.Application.Queries.Services.ById;
-using Appointify.Domain.Notifications;
+﻿using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
 
-namespace Appointify.Application.Queries.Services.All
+namespace Appointify.Application.Queries.Services.ById
 {
     public class GetServiceByIdQueryHandler : IRequestHandler<GetServiceByIdQuery, GetServiceByIdQueryResponse?>
     {
@@ -27,8 +26,8 @@ namespace Appointify.Application.Queries.Services.All
             }
 
             return new GetServiceByIdQueryResponse(
-                service.Id, 
-                service.Name, 
+                service.Id,
+                service.Name,
                 service.Interval.ToString(@"hh\:mm"));
         }
     }

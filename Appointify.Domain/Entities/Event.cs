@@ -15,5 +15,23 @@
         public Guid ServiceId { get; set; }
 
         public Service Service { get; set; } = new Service();
+
+        public Event(
+            string title, 
+            string? description,
+            DateTime date, 
+            User user, 
+            Service service)
+        {
+            Title = title;
+            Description = description;
+            Date = date;
+            User = user;
+            UserId = user.Id;
+            Service = service;
+            ServiceId = service.Id;
+        }
+
+        public Event() { }
     }
 }

@@ -3,20 +3,20 @@ using Appointify.Domain;
 using Appointify.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
+using Appointify.Domain.Authentication;
 
 namespace Appointify.Infrastructure
 {
     public class DataContext : DbContext, IUnitOfWork
     {
-        //private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContext _httpContext;
 
         public DataContext(
-            DbContextOptions<DataContext> options)
-            //IHttpContextAccessor httpContextAccessor,)
+            DbContextOptions<DataContext> options,
+            IHttpContext httpContext)
             : base(options)
         {
-            //_httpContextAccessor = httpContextAccessor;
-            //_connectionOptions = connectionOptions.Value;
+            _httpContext = httpContext;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -33,15 +33,15 @@ namespace Appointify.Infrastructure
 
         public DbSet<Event> Events { get; set; }
 
+        public DbSet<Plan> Plans { get; set; }
+
+        public DbSet<Service> Services { get; set; }
+
         public virtual async Task CommitAsync()
         {
             var modifiedEntries = ChangeTracker.Entries()
                 .Where(e => e.State is EntityState.Added or EntityState.Modified)
                 .Where(e => e.Entity is Entity);
-
-            //tentar pegar do Ihttpcontext
-            //var userId = _httpContextAccessor?.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //var userIdConverted = userId != null ? Guid.Parse(userId) : Guid.Empty;
 
             foreach (var entry in modifiedEntries)
             {
@@ -50,11 +50,11 @@ namespace Appointify.Infrastructure
                 if (entry.State == EntityState.Added)
                 {
                     entity.CreatedAt = DateTime.UtcNow;
-                    //entity.CreatedBy = userIdConverted;
+                    entity.CreatedBy = _httpContext.GetUserId();
                 }
 
                 entity.ModifiedAt = DateTime.UtcNow;
-                //entity.ModifiedBy = userIdConverted;
+                entity.ModifiedBy = _httpContext.GetUserId();
             }
 
             await SaveChangesAsync();

@@ -22,6 +22,10 @@ namespace Appointify.Infrastructure.Mappings
                .HasColumnName("password")
                .IsRequired();
 
+            builder.Property(u => u.Type)
+              .HasColumnName("type")
+              .IsRequired();
+
             builder.Property(u => u.CompanyId)
                .HasColumnName("company_id")
                .IsRequired();

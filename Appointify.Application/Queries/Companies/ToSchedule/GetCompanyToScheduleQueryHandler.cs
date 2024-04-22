@@ -51,7 +51,7 @@ namespace Appointify.Application.Queries.Companies.ToSchedule
                 {
                     date += time;
 
-                    var _event = company.Events.FirstOrDefault(e => e.Date == date);
+                    var _event = company.GetEvents().FirstOrDefault(e => e.Date == date);
 
                     if (_event != null)
                     {

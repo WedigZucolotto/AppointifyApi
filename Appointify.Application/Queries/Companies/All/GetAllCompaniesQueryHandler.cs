@@ -3,11 +3,11 @@ using MediatR;
 
 namespace Appointify.Application.Queries.Companies.All
 {
-    public class GetAllCompaniesHandler : IRequestHandler<GetAllCompaniesQuery, IEnumerable<GetAllCompaniesQueryResponse>>
+    public class GetAllCompaniesQueryHandler : IRequestHandler<GetAllCompaniesQuery, IEnumerable<GetAllCompaniesQueryResponse>>
     {
         private readonly ICompanyRepository _companyRepository;
 
-        public GetAllCompaniesHandler(ICompanyRepository companyRepository)
+        public GetAllCompaniesQueryHandler(ICompanyRepository companyRepository)
         {
             _companyRepository = companyRepository;
         }
