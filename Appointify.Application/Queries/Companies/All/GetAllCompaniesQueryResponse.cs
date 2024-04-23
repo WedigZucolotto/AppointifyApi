@@ -6,14 +6,12 @@
             Guid id,
             string name,
             string planName,
-            string? ownerName,
             string open,
             string close)
         {
             Id = id;
             Name = name;
             PlanName = planName;
-            OwnerName = ownerName;
             Open = open;
             Close = close;
         }
@@ -23,8 +21,6 @@
         public string Name { get; set; }
 
         public string PlanName { get; set; }
-
-        public string? OwnerName { get; set; }
 
         public string Open { get; set; }
 

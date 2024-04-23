@@ -1,4 +1,5 @@
 ﻿using Appointify.Domain;
+using Appointify.Domain.Authentication;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
@@ -7,18 +8,24 @@ namespace Appointify.Application.Commands.Companies.Update
 {
     public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand, Nothing>
     {
-        private readonly INotificationContext _notification;
         private readonly IPlanRepository _planRepository;
         private readonly ICompanyRepository _companyRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly INotificationContext _notification;
+        private readonly IHttpContext _httpContext;
 
         public UpdateCompanyCommandHandler(
             INotificationContext notification, 
             IPlanRepository planRepository,
-            ICompanyRepository companyRepository) 
+            ICompanyRepository companyRepository,
+            IUserRepository userRepository,
+            IHttpContext httpContext) 
         {
             _notification = notification;
             _planRepository = planRepository;
             _companyRepository = companyRepository;
+            _userRepository = userRepository;
+            _httpContext = httpContext;
         }
 
         public async Task<Nothing> Handle(UpdateCompanyCommand command, CancellationToken cancellationToken) 
@@ -28,6 +35,17 @@ namespace Appointify.Application.Commands.Companies.Update
             if (company == null)
             {
                 _notification.AddNotFound("Empresa não encontrada.");
+                return default;
+            }
+
+            var userClaims = _httpContext.GetUserClaims();
+
+            var isUserCompany = await _userRepository
+                .VerifyCompanyAsync(userClaims.Id ?? Guid.Empty, company.Id);
+
+            if (!isUserCompany)
+            {
+                _notification.AddBadRequest("Usuário não pertence à Empresa.");
                 return default;
             }
 

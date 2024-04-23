@@ -68,6 +68,13 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("companies:create", policy => policy.RequireClaim("permissions", "companies:create"));
     options.AddPolicy("companies:update", policy => policy.RequireClaim("permissions", "companies:update"));
     options.AddPolicy("companies:delete", policy => policy.RequireClaim("permissions", "companies:delete"));
+
+    options.AddPolicy("plans:options", policy => policy.RequireClaim("permissions", "plans:options"));
+    options.AddPolicy("services:getAll", policy => policy.RequireClaim("permissions", "services:getAll"));
+    options.AddPolicy("services:getById", policy => policy.RequireClaim("permissions", "services:getById"));
+    //options.AddPolicy("companies:create", policy => policy.RequireClaim("permissions", "companies:create"));
+    //options.AddPolicy("companies:update", policy => policy.RequireClaim("permissions", "companies:update"));
+    //options.AddPolicy("companies:delete", policy => policy.RequireClaim("permissions", "companies:delete"));
 });
 
 

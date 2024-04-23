@@ -15,7 +15,8 @@ namespace Appointify.Application.Commands.Companies.Update
 
             RuleFor(c => c.Close)
                .Matches(@"^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
-               .WithMessage("Formato inválido: Close");
+               .WithMessage("Formato inválido: Close")
+               .GreaterThan(c => c.Open).WithMessage("Close deve ser maior que o Open."); ;
         }
     }
 }

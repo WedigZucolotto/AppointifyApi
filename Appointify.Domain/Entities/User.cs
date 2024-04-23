@@ -16,8 +16,6 @@ namespace Appointify.Domain.Entities
         
         public Company Company { get; set; } = new Company();
 
-        public bool IsOwner { get; set; }
-
         public List<Event> Events { get; set; } = new List<Event>();
 
         public List<Permission> Permissions { get; set; } = new List<Permission>();
@@ -38,8 +36,7 @@ namespace Appointify.Domain.Entities
             string completeName, 
             string password, 
             UserType type, 
-            Company company,
-            bool isOwner)
+            Company company)
         {
             Name = name;
             CompleteName = completeName;
@@ -47,7 +44,6 @@ namespace Appointify.Domain.Entities
             Type = type;
             Company = company;
             CompanyId = company.Id;
-            IsOwner = isOwner;
         }
     }
 }

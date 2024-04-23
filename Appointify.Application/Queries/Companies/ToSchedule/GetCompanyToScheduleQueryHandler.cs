@@ -33,7 +33,12 @@ namespace Appointify.Application.Queries.Companies.ToSchedule
             var showExtraFields = company.Plan.ShowExtraFields;
             var services = company.Services.Select(s => new OptionDto(s.Name, s.Id));
 
-            return new GetCompanyToScheduleQueryResponse(minDate, maxDate, unavaliableDates, showExtraFields, services);
+            return new GetCompanyToScheduleQueryResponse(
+                minDate, 
+                maxDate, 
+                unavaliableDates, 
+                showExtraFields, 
+                services);
         }
 
         private List<DateTime> GetUnavaliableDates(Company company)

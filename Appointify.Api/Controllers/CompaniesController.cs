@@ -40,7 +40,7 @@ namespace Appointify.Api.Controllers
         }
 
         [HttpPost]
-        //[HasPermission(Permissions.Companies.Create)]
+        [HasPermission(Permissions.Companies.Create)]
         public async Task<IActionResult> CreateAsync([FromBody] CreateCompanyCommand command)
         {
             await _mediator.Send(command);

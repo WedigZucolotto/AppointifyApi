@@ -16,5 +16,12 @@ namespace Appointify.Infrastructure.Repositories
                 .Include(u => u.Permissions)
                 .FirstOrDefaultAsync(u => u.Name == name);
         }
+
+        public Task<bool> VerifyCompanyAsync(Guid id, Guid companyId)
+        {
+            return Query
+                .Where(u => u.Id == id)
+                .AnyAsync(u => u.CompanyId == companyId);
+        }
     }
 }

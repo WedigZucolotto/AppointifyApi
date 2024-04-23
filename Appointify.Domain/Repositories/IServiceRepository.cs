@@ -4,6 +4,6 @@ namespace Appointify.Domain.Repositories
 {
     public interface IServiceRepository : IRepository<Service>
     {
-        Task<List<Service>> GetAllFilteredByCompanyAsync(Guid companyId);
+        Task<List<Service>> GetFilteredAsync(Guid? companyId, string? name);
     }
 }

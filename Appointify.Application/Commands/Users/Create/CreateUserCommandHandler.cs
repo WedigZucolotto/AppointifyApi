@@ -52,8 +52,8 @@ namespace Appointify.Application.Commands.Users.Create
                 command.CompleteName, 
                 hashedPassword, 
                 (UserType)command.Type,
-                company,
-                command.IsOwner);
+                company);
+
 
             _userRepository.Add(newUser);
             await _userRepository.UnitOfWork.CommitAsync();

@@ -11,22 +11,23 @@
             public const string Delete = "companies:delete";
         }
 
-        public static class Events
-        {
-            public const string View = "events:view";
-            public const string Edit = "events:edit";
-        }
+        //public static class Events
+        //{
+        //    public const string Create = "events:create";
+        //}
 
         public static class Plans
         {
-            public const string View = "plans:view";
-            public const string Edit = "plans:edit";
+            public const string Options = "plans:options";
         }
 
         public static class Services
         {
-            public const string View = "services:view";
-            public const string Edit = "services:edit";
+            public const string GetAll = "services:getAll";
+            public const string GetById = "services:getById";
+            public const string Create = "services:create";
+            public const string Update = "services:update";
+            public const string Delete = "services:delete";
         }
 
         public static class Users

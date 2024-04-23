@@ -11,13 +11,12 @@ namespace Appointify.Infrastructure.Repositories
         {
         }
 
-        public Task<List<Company>> GetFilteredAsync(string? name, Guid? planId, Guid? ownerId) => 
+        public Task<List<Company>> GetFilteredAsync(string? name, Guid? planId) => 
             Query
                 .Include(c => c.Plan)
                 .Include(c => c.Users)
                 .ConditionalFilter(c => c.Name.ToLower().Contains(name.ToLower()), !string.IsNullOrEmpty(name))
                 .ConditionalFilter(c => c.PlanId == planId, planId.HasValue && planId != Guid.Empty)
-                //.ConditionalFilter(c => c.Owner().Id == ownerId, ownerId.HasValue && planId != Guid.Empty)
                 .ToListAsync();
 
         public override Task<Company?> GetByIdAsync(Guid id) => Query

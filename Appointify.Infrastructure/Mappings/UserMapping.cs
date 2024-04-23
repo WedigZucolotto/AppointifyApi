@@ -30,10 +30,6 @@ namespace Appointify.Infrastructure.Mappings
                .HasColumnName("company_id")
                .IsRequired();
 
-            builder.Property(u => u.IsOwner)
-               .HasColumnName("is_owner")
-               .IsRequired();
-
             builder.HasOne(u => u.Company)
                 .WithMany(c => c.Users)
                 .HasForeignKey(b => b.CompanyId);

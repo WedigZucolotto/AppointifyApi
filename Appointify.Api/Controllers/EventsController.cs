@@ -1,4 +1,5 @@
 ﻿using Appointify.Application.Commands.Events.Create;
+using Appointify.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,8 +16,8 @@ namespace Appointify.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost()]
-        public async Task<IActionResult> CreateEventSAsync([FromBody] CreateEventCommand command)
+        [HttpPost]
+        public async Task<IActionResult> CreateEventAsync([FromBody] CreateEventCommand command)
         {
             await _mediator.Send(command);
             return NoContent();

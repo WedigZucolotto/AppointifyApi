@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using System.Text.Json.Serialization;
 
 namespace Appointify.Application.Queries.Companies.AvailableTimes
 {
@@ -12,7 +13,7 @@ namespace Appointify.Application.Queries.Companies.AvailableTimes
 
         public Guid Id { get; set; }
 
-        public string Date { get; set; }
+        public string Date { get; set; } = string.Empty;
 
         public Guid ServiceId { get; set; }
 

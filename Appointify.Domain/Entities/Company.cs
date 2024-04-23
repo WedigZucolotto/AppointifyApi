@@ -20,8 +20,6 @@ namespace Appointify.Domain.Entities
 
         public List<Event> Events() => Users.SelectMany(u => u.Events).ToList();
 
-        public User? Owner() => Users.FirstOrDefault(u => u.IsOwner);
-
         public Company(
             string name,
             Plan plan, 
