@@ -14,6 +14,8 @@ namespace Appointify.Domain.Entities
 
         public ICollection<Event> Events { get; set; } = new Collection<Event>();
 
+        public bool CanEdit(Guid? userId) => !Company.IsStandard() && Company.CanEdit(userId);
+
         public Service() { }
 
         public Service(string name, TimeSpan interval, Company company)

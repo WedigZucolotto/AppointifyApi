@@ -37,18 +37,19 @@ namespace Appointify.Application.Queries.Services.ById
 
             var userClaims = _httpContext.GetUserClaims();
 
-            var isUserCompany = await _userRepository
-                .VerifyCompanyAsync(userClaims.Id ?? Guid.Empty, service.CompanyId);
+            var companyHasUser = service.Company.HasUser(userClaims.Id);
 
-            if (!isUserCompany)
+            if (!companyHasUser)
             {
                 _notification.AddBadRequest("Usuário não pertence à Empresa.");
                 return default;
             }
 
-            if (service.Company.Plan.Name == "Standard")
+            var canEditService = service.CanEdit(userClaims.Id);
+
+            if (!canEditService)
             {
-                _notification.AddBadRequest("Plano insuficiente.");
+                _notification.AddBadRequest("Você não tem permissão para realizar essa operação.");
                 return default;
             }
 

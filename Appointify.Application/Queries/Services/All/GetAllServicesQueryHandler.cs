@@ -1,5 +1,4 @@
 ﻿using Appointify.Domain.Authentication;
-using Appointify.Domain.Entities;
 using Appointify.Domain.Entities.Enums;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
@@ -7,26 +6,26 @@ using MediatR;
 
 namespace Appointify.Application.Queries.Services.All
 {
-    public class GetAllServicesQueryHandler : IRequestHandler<GetAllServicesQuery, IEnumerable<GetAllServicesQueryResponse>>
+    public class GetAllServicesQueryHandler : IRequestHandler<GetAllServicesQuery, IEnumerable<GetAllServicesQueryResponse>?>
     {
         private readonly IServiceRepository _serviceRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly ICompanyRepository _companyRepository;
         private readonly IHttpContext _httpContext;
         private readonly INotificationContext _notification;
 
         public GetAllServicesQueryHandler(
             IServiceRepository serviceRepository, 
             IHttpContext httpContext,
-            IUserRepository userRepository,
+            ICompanyRepository companyRepository,
             INotificationContext notification)
         {
             _serviceRepository = serviceRepository;
             _httpContext = httpContext;
-            _userRepository = userRepository;
+            _companyRepository = companyRepository;
             _notification = notification;
         }
 
-        public async Task<IEnumerable<GetAllServicesQueryResponse>> Handle(GetAllServicesQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<GetAllServicesQueryResponse>?> Handle(GetAllServicesQuery query, CancellationToken cancellationToken)
         {
             var userClaims = _httpContext.GetUserClaims();
 
@@ -36,13 +35,31 @@ namespace Appointify.Application.Queries.Services.All
                 return default;
             }
 
-            var isUserCompany = await _userRepository
-                .VerifyCompanyAsync(userClaims.Id ?? Guid.Empty, query.CompanyId ?? Guid.Empty);
-
-            if (!isUserCompany)
+            if (query.CompanyId != null)
             {
-                _notification.AddBadRequest("Usuário não pertence à Empresa.");
-                return default;
+                var company = await _companyRepository.GetByIdAsync(query.CompanyId.Value);
+
+                if (company == null)
+                {
+                    _notification.AddNotFound("Empresa não encontrada.");
+                    return default;
+                }
+
+                var companyHasUser = company.HasUser(userClaims.Id);
+
+                if (!companyHasUser)
+                {
+                    _notification.AddBadRequest("Usuário não pertence à Empresa.");
+                    return default;
+                }
+
+                var canEditCompany = company.CanEdit(userClaims.Id);
+
+                if (!canEditCompany)
+                {
+                    _notification.AddBadRequest("Você não tem permissão para realizar essa operação.");
+                    return default;
+                }
             }
 
             var services = await _serviceRepository.GetFilteredAsync(query.CompanyId, query.Name);

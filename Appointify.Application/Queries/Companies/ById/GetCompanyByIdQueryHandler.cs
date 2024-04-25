@@ -1,5 +1,4 @@
 ﻿using Appointify.Domain.Authentication;
-using Appointify.Domain.Entities.Enums;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
@@ -9,18 +8,15 @@ namespace Appointify.Application.Queries.Companies.ById
     public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, GetCompanyByIdQueryResponse?>
     {
         private readonly ICompanyRepository _companyRepository;
-        private readonly IUserRepository _userRepository;
         private readonly INotificationContext _notification;
         private readonly IHttpContext _httpContext;
 
         public GetCompanyByIdQueryHandler(
             ICompanyRepository companyRepository,
-            IUserRepository userRepository,
             INotificationContext notification, 
             IHttpContext httpContext)
         {
             _companyRepository = companyRepository;
-            _userRepository = userRepository;
             _notification = notification;
             _httpContext = httpContext;
         }
@@ -37,24 +33,19 @@ namespace Appointify.Application.Queries.Companies.ById
 
             var userClaims = _httpContext.GetUserClaims();
 
-            var isUserCompany = await _userRepository
-                .VerifyCompanyAsync(userClaims.Id ?? Guid.Empty, company.Id);
+            var companyHasUser = company.HasUser(userClaims.Id);
 
-            if (!isUserCompany)
+            if (!companyHasUser)
             {
                 _notification.AddBadRequest("Usuário não pertence à Empresa.");
                 return default;
             }
 
-            var isOwnerUser = company.Users
-                .Where(u => u.Type == UserType.Owner)
-                .Any(u => u.Id == userClaims.Id);
+            var canEditCompany = company.CanEdit(userClaims.Id);
 
-            var isAdminUser = userClaims.Type == UserType.Admin;
-
-            if (!isOwnerUser && !isAdminUser)
+            if (!canEditCompany)
             {
-                _notification.AddBadRequest("Usuário não é o proprietário.");
+                _notification.AddBadRequest("Você não tem permissão para realizar essa operação.");
                 return default;
             }
 

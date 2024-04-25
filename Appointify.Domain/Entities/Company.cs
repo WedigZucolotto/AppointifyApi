@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Appointify.Domain.Entities.Enums;
+using System.Collections.ObjectModel;
 
 namespace Appointify.Domain.Entities
 {
@@ -19,6 +20,14 @@ namespace Appointify.Domain.Entities
         public List<Service> Services { get; set; } = new List<Service>();
 
         public List<Event> Events() => Users.SelectMany(u => u.Events).ToList();
+
+        public bool HasUser(Guid? userId) => Users.Any(u => u.Id == userId);
+
+        public bool CanEdit(Guid? userId) => Users
+            .Where(u => u.Type is UserType.Owner or UserType.Admin)
+            .Any(u => u.Id == userId);
+
+        public bool IsStandard() => Plan.Name == "Satandard";
 
         public Company(
             string name,

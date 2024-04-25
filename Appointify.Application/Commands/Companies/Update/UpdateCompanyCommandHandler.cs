@@ -40,12 +40,19 @@ namespace Appointify.Application.Commands.Companies.Update
 
             var userClaims = _httpContext.GetUserClaims();
 
-            var isUserCompany = await _userRepository
-                .VerifyCompanyAsync(userClaims.Id ?? Guid.Empty, company.Id);
+            var companyHasUser = company.HasUser(userClaims.Id);
 
-            if (!isUserCompany)
+            if (!companyHasUser)
             {
                 _notification.AddBadRequest("Usuário não pertence à Empresa.");
+                return default;
+            }
+
+            var canEditCompany = company.CanEdit(userClaims.Id);
+
+            if (!canEditCompany)
+            {
+                _notification.AddBadRequest("Você não tem permissão para realizar essa operação.");
                 return default;
             }
 

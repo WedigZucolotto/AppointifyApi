@@ -1,6 +1,5 @@
 ﻿using Appointify.Domain;
 using Appointify.Domain.Authentication;
-using Appointify.Domain.Entities;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
@@ -11,18 +10,15 @@ namespace Appointify.Application.Commands.Services.Delete
     {
         private readonly INotificationContext _notification;
         private readonly IServiceRepository _serviceRepository;
-        private readonly IUserRepository _userRepository;
         private readonly IHttpContext _httpContext;
 
         public DeleteServiceCommandHandler(
             INotificationContext notification,
             IServiceRepository serviceRepository,
-            IUserRepository userRepository,
             IHttpContext httpContext) 
         {
             _notification = notification;
             _serviceRepository = serviceRepository;
-            _userRepository = userRepository;
             _httpContext = httpContext;
         }
 
@@ -38,12 +34,19 @@ namespace Appointify.Application.Commands.Services.Delete
 
             var userClaims = _httpContext.GetUserClaims();
 
-            var isUserCompany = await _userRepository
-                .VerifyCompanyAsync(userClaims.Id ?? Guid.Empty, service.CompanyId);
+            var companyHasUser = service.Company.HasUser(userClaims.Id);
 
-            if (!isUserCompany)
+            if (!companyHasUser)
             {
                 _notification.AddBadRequest("Usuário não pertence à Empresa.");
+                return default;
+            }
+
+            var canEditService = service.CanEdit(userClaims.Id);
+
+            if (!canEditService)
+            {
+                _notification.AddBadRequest("Você não tem permissão para realizar essa operação.");
                 return default;
             }
 

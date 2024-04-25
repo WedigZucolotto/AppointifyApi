@@ -10,20 +10,17 @@ namespace Appointify.Application.Commands.Services.Create
     public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand, Nothing>
     {
         private readonly IServiceRepository _serviceRepository;
-        private readonly IUserRepository _userRepository;
         private readonly ICompanyRepository _companyRepository;
         private readonly INotificationContext _notification;
         private readonly IHttpContext _httpContext;
 
         public CreateServiceCommandHandler(
             IServiceRepository serviceRepository,
-            IUserRepository userRepository,
             ICompanyRepository companyRepository,
             INotificationContext notification,
             IHttpContext httpContext) 
         {
             _serviceRepository = serviceRepository;
-            _userRepository = userRepository;
             _companyRepository = companyRepository;
             _notification = notification;
             _httpContext = httpContext;
@@ -41,12 +38,27 @@ namespace Appointify.Application.Commands.Services.Create
 
             var userClaims = _httpContext.GetUserClaims();
 
-            var isUserCompany = await _userRepository
-                .VerifyCompanyAsync(userClaims.Id ?? Guid.Empty, company.Id);
+            var companyHasUser = company.HasUser(userClaims.Id);
 
-            if (!isUserCompany)
+            if (!companyHasUser)
             {
                 _notification.AddBadRequest("Usuário não pertence à Empresa.");
+                return default;
+            }
+
+            var canEditCompany = company.CanEdit(userClaims.Id);
+
+            if (!canEditCompany)
+            {
+                _notification.AddBadRequest("Você não tem permissão para realizar essa operação.");
+                return default;
+            }
+
+            var isStandard = company.IsStandard();
+
+            if (isStandard)
+            {
+                _notification.AddBadRequest("Plano insuficiente.");
                 return default;
             }
 

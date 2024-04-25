@@ -37,12 +37,19 @@ namespace Appointify.Application.Commands.Services.Update
 
             var userClaims = _httpContext.GetUserClaims();
 
-            var isUserCompany = await _userRepository
-                .VerifyCompanyAsync(userClaims.Id ?? Guid.Empty, service.CompanyId);
+            var companyHasUser = service.Company.HasUser(userClaims.Id);
 
-            if (!isUserCompany)
+            if (!companyHasUser)
             {
                 _notification.AddBadRequest("Usuário não pertence à Empresa.");
+                return default;
+            }
+
+            var canEditService = service.CanEdit(userClaims.Id);
+
+            if (!canEditService)
+            {
+                _notification.AddBadRequest("Você não tem permissão para realizar essa operação.");
                 return default;
             }
 
