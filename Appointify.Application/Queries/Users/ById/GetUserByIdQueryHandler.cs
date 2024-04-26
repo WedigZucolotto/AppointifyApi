@@ -3,6 +3,7 @@ using Appointify.Domain.Entities.Enums;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Appointify.Application.Queries.Users.ById
 {
@@ -28,6 +29,7 @@ namespace Appointify.Application.Queries.Users.ById
             }
 
             return new GetUserByIdQueryResponse(
+                user.Id,
                 user.Name, 
                 user.CompleteName, 
                 user.Type.ToString(), 

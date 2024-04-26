@@ -6,6 +6,6 @@ namespace Appointify.Application.Queries.Services.All
     {
         public Guid? CompanyId { get; set; }
 
-        public string? Name { get; set; } = string.Empty;
+        public string? Name { get; set; }
     }
 }

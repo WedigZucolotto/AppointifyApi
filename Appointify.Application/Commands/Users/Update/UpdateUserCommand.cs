@@ -20,7 +20,5 @@ namespace Appointify.Application.Commands.Users.Update
         public string? Password { get; set; } = string.Empty;
 
         public string? CompleteName { get; set; } = string.Empty;
-
-        public int? Type { get; set; }
     }
 }

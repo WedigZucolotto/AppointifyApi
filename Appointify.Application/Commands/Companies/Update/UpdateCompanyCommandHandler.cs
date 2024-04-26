@@ -10,7 +10,6 @@ namespace Appointify.Application.Commands.Companies.Update
     {
         private readonly IPlanRepository _planRepository;
         private readonly ICompanyRepository _companyRepository;
-        private readonly IUserRepository _userRepository;
         private readonly INotificationContext _notification;
         private readonly IHttpContext _httpContext;
 
@@ -18,13 +17,11 @@ namespace Appointify.Application.Commands.Companies.Update
             INotificationContext notification, 
             IPlanRepository planRepository,
             ICompanyRepository companyRepository,
-            IUserRepository userRepository,
             IHttpContext httpContext) 
         {
             _notification = notification;
             _planRepository = planRepository;
             _companyRepository = companyRepository;
-            _userRepository = userRepository;
             _httpContext = httpContext;
         }
 
@@ -40,15 +37,7 @@ namespace Appointify.Application.Commands.Companies.Update
 
             var userClaims = _httpContext.GetUserClaims();
 
-            var companyHasUser = company.HasUser(userClaims.Id);
-
-            if (!companyHasUser)
-            {
-                _notification.AddBadRequest("Usuário não pertence à Empresa.");
-                return default;
-            }
-
-            var canEditCompany = company.CanEdit(userClaims.Id);
+            var canEditCompany = company.CanEdit(userClaims);
 
             if (!canEditCompany)
             {
@@ -70,19 +59,22 @@ namespace Appointify.Application.Commands.Companies.Update
                 company.PlanId = plan.Id;
             }
 
-            if (command.Open != null)
+            if (!string.IsNullOrEmpty(command.Open))
             {
                 var open = TimeSpan.ParseExact(command.Open, "hh\\:mm", null);
                 company.Open = open;
             }
 
-            if (command.Close != null)
+            if (!string.IsNullOrEmpty(command.Close))
             {
                 var close = TimeSpan.ParseExact(command.Close, "hh\\:mm", null);
                 company.Close = close;
             }
 
-            company.Name = command.Name ?? company.Name;
+            if (!string.IsNullOrEmpty(command.Name))
+            {
+                company.Name = command.Name;
+            }
 
             _companyRepository.Update(company);
             await _companyRepository.UnitOfWork.CommitAsync();

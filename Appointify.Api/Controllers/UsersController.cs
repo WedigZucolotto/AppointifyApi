@@ -4,6 +4,7 @@ using Appointify.Application.Commands.Users.Login;
 using Appointify.Application.Commands.Users.Update;
 using Appointify.Application.Queries.Users.All;
 using Appointify.Application.Queries.Users.ById;
+using Appointify.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,16 +22,16 @@ namespace Appointify.Api.Controllers
             _mediator = mediator;
         }
 
-        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        [HasPermission(Permissions.Users.GetAll)]
+        public async Task<IActionResult> GetAllAsync([FromQuery] GetAllUsersQuery query)
         {
-            var users = await _mediator.Send(new GetAllUsersQuery());
+            var users = await _mediator.Send(query);
             return Ok(users);
         }
 
-        [Authorize]
         [HttpGet("{id}")]
+        [HasPermission(Permissions.Users.GetById)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
             var user = await _mediator.Send(new GetUserByIdQuery(id));
@@ -44,24 +45,24 @@ namespace Appointify.Api.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
         [HttpPost()]
+        [HasPermission(Permissions.Users.Create)]
         public async Task<IActionResult> CreateAsync([FromBody] CreateUserCommand command)
         {
             await _mediator.Send(command);
             return NoContent();
         }
 
-        [Authorize]
         [HttpPut("{id}")]
+        [HasPermission(Permissions.Users.Update)]
         public async Task<IActionResult> UpdateUserAsync([FromRoute] Guid id, [FromBody] UpdateUserCommand command)
         {
             await _mediator.Send(command.WithId(id));
             return NoContent();
         }
 
-        [Authorize]
         [HttpDelete("{id}")]
+        [HasPermission(Permissions.Users.Delete)]
         public async Task<IActionResult> DeleteUserAsync([FromRoute] Guid id)
         {
             await _mediator.Send(new DeleteUserCommand(id));

@@ -21,13 +21,16 @@ namespace Appointify.Domain.Entities
 
         public List<Event> Events() => Users.SelectMany(u => u.Events).ToList();
 
-        public bool HasUser(Guid? userId) => Users.Any(u => u.Id == userId);
+        public bool CanEdit((Guid? Id, UserType? Type) user)
+        {
+            var isOwnerUser = Users
+                .Where(u => u.Type is UserType.Owner)
+                .Any(u => u.Id == user.Id);
 
-        public bool CanEdit(Guid? userId) => Users
-            .Where(u => u.Type is UserType.Owner or UserType.Admin)
-            .Any(u => u.Id == userId);
+            return isOwnerUser || user.Type == UserType.Admin;
+        }
 
-        public bool IsStandard() => Plan.Name == "Satandard";
+        public bool IsStandard() => Plan.Name == "Standard";
 
         public Company(
             string name,

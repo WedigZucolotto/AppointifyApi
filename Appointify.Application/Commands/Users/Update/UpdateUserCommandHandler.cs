@@ -1,6 +1,5 @@
 ﻿using Appointify.Domain;
 using Appointify.Domain.Authentication;
-using Appointify.Domain.Entities.Enums;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
@@ -33,15 +32,21 @@ namespace Appointify.Application.Commands.Users.Update
                 return default;
             }
 
-            if (command.Password != null)
+            if (!string.IsNullOrEmpty(command.Password))
             {
                 var hashedPassword = _passwordHasher.Generate(command.Password);
                 user.Password = hashedPassword ?? user.Password;
             }
 
-            user.Name = command.Name ?? user.Name;
-            user.CompleteName = command.CompleteName ?? user.CompleteName;
-            user.Type = command.Type != null ? (UserType)command.Type : user.Type;
+            if (!string.IsNullOrEmpty(command.Name))
+            {
+                user.Name = command.Name;
+            }
+
+            if (!string.IsNullOrEmpty(command.CompleteName))
+            {
+                user.CompleteName = command.CompleteName;
+            }
 
             _userRepository.Update(user);
             await _userRepository.UnitOfWork.CommitAsync();

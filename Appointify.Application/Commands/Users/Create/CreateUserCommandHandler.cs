@@ -48,12 +48,19 @@ namespace Appointify.Application.Commands.Users.Create
             var hashedPassword = _passwordHasher.Generate(command.Password);
 
             var newUser = new User(
-                command.Name, 
-                command.CompleteName, 
-                hashedPassword, 
-                (UserType)command.Type,
+                command.Name,
+                command.CompleteName,
+                hashedPassword,
                 company);
 
+            if (command.IsOwner)
+            {
+                newUser.SetTypeToOwner();
+            } 
+            else
+            {
+                newUser.SetTypeToEmployee();
+            }
 
             _userRepository.Add(newUser);
             await _userRepository.UnitOfWork.CommitAsync();

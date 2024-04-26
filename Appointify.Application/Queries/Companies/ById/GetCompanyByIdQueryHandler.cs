@@ -33,15 +33,7 @@ namespace Appointify.Application.Queries.Companies.ById
 
             var userClaims = _httpContext.GetUserClaims();
 
-            var companyHasUser = company.HasUser(userClaims.Id);
-
-            if (!companyHasUser)
-            {
-                _notification.AddBadRequest("Usuário não pertence à Empresa.");
-                return default;
-            }
-
-            var canEditCompany = company.CanEdit(userClaims.Id);
+            var canEditCompany = company.CanEdit(userClaims);
 
             if (!canEditCompany)
             {

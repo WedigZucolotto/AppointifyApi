@@ -45,15 +45,7 @@ namespace Appointify.Application.Queries.Services.All
                     return default;
                 }
 
-                var companyHasUser = company.HasUser(userClaims.Id);
-
-                if (!companyHasUser)
-                {
-                    _notification.AddBadRequest("Usuário não pertence à Empresa.");
-                    return default;
-                }
-
-                var canEditCompany = company.CanEdit(userClaims.Id);
+                var canEditCompany = company.CanEdit(userClaims);
 
                 if (!canEditCompany)
                 {

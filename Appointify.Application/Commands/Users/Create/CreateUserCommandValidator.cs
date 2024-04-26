@@ -7,6 +7,8 @@ namespace Appointify.Application.Commands.Users.Create
         public CreateUserCommandValidator()
         {
             RuleFor(u => u.Name)
+                .MinimumLength(5).WithMessage("Name deve ter no mínimo 5 caracteres.")
+                .Matches("^[a-z0-9]+$").WithMessage("Name deve estar em minúsculas e sem espaços.")
                 .NotEmpty().WithMessage("Propriedade obrigatória: Name");
 
             RuleFor(u => u.CompleteName)
@@ -19,8 +21,8 @@ namespace Appointify.Application.Commands.Users.Create
                 .Matches("[!@#$%^&*(),.?\":{}|<>]").WithMessage("Senha deve ter pelo menos um caracter especial.")
                 .Matches("[A-Z]").WithMessage("Senha deve ter pelo menos uma letra maiúscula.");
 
-            RuleFor(u => u.Type)
-                .NotNull().WithMessage("Propriedade obrigatória: Type");
+            RuleFor(u => u.IsOwner)
+                .NotNull().WithMessage("Propriedade obrigatória: IsOwner");
 
             RuleFor(u => u.CompanyId)
                 .NotNull().WithMessage("Propriedade obrigatória: CompanyId");

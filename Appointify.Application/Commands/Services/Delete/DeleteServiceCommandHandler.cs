@@ -34,15 +34,7 @@ namespace Appointify.Application.Commands.Services.Delete
 
             var userClaims = _httpContext.GetUserClaims();
 
-            var companyHasUser = service.Company.HasUser(userClaims.Id);
-
-            if (!companyHasUser)
-            {
-                _notification.AddBadRequest("Usuário não pertence à Empresa.");
-                return default;
-            }
-
-            var canEditService = service.CanEdit(userClaims.Id);
+            var canEditService = service.CanEdit(userClaims);
 
             if (!canEditService)
             {

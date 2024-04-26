@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Appointify.Domain.Entities.Enums;
+using System.Collections.ObjectModel;
 
 namespace Appointify.Domain.Entities
 {
@@ -14,7 +15,8 @@ namespace Appointify.Domain.Entities
 
         public ICollection<Event> Events { get; set; } = new Collection<Event>();
 
-        public bool CanEdit(Guid? userId) => !Company.IsStandard() && Company.CanEdit(userId);
+        public bool CanEdit((Guid? Id, UserType? Type) user) => 
+            !Company.IsStandard() && Company.CanEdit(user);
 
         public Service() { }
 

@@ -37,15 +37,7 @@ namespace Appointify.Application.Commands.Services.Update
 
             var userClaims = _httpContext.GetUserClaims();
 
-            var companyHasUser = service.Company.HasUser(userClaims.Id);
-
-            if (!companyHasUser)
-            {
-                _notification.AddBadRequest("Usuário não pertence à Empresa.");
-                return default;
-            }
-
-            var canEditService = service.CanEdit(userClaims.Id);
+            var canEditService = service.CanEdit(userClaims);
 
             if (!canEditService)
             {
@@ -53,13 +45,16 @@ namespace Appointify.Application.Commands.Services.Update
                 return default;
             }
 
-            if (command.Interval != null)
+            if (!string.IsNullOrEmpty(command.Interval))
             {
                 var interval = TimeSpan.ParseExact(command.Interval, "hh\\:mm", null);
                 service.Interval = interval;
             }
 
-            service.Name = command.Name ?? service.Name;
+            if (!string.IsNullOrEmpty(command.Name))
+            {
+                service.Name = command.Name;
+            }
 
             _serviceRepository.Update(service);
             await _serviceRepository.UnitOfWork.CommitAsync();

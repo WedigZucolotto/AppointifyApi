@@ -20,7 +20,7 @@ namespace Appointify.Application.Commands.Users.Delete
 
         public async Task<Nothing> Handle(DeleteUserCommand command, CancellationToken cancellationToken) 
         {
-            var user = await _userRepository.GetByIdAsync(command.Id);
+            var user = await _userRepository.GetByIdToDeleteAsync(command.Id);
             
             if (user == null)
             {

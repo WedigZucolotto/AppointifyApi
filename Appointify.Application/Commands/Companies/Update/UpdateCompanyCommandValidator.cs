@@ -9,14 +9,20 @@ namespace Appointify.Application.Commands.Companies.Update
             RuleFor(c => c.Id)
                 .NotEmpty().WithMessage("Propriedade obrigatória: Id");
 
-            RuleFor(c => c.Open)
+            When(c => !string.IsNullOrEmpty(c.Open), () =>
+            {
+                RuleFor(c => c.Open)
                .Matches(@"^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
                .WithMessage("Formato inválido: Open");
+            });
 
-            RuleFor(c => c.Close)
+            When(c => !string.IsNullOrEmpty(c.Close), () =>
+            {
+                RuleFor(c => c.Close)
                .Matches(@"^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
                .WithMessage("Formato inválido: Close")
-               .GreaterThan(c => c.Open).WithMessage("Close deve ser maior que o Open."); ;
+               .GreaterThan(c => c.Open).WithMessage("Close deve ser maior que o Open.");
+            });
         }
     }
 }

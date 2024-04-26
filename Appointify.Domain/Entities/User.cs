@@ -1,4 +1,6 @@
 ﻿using Appointify.Domain.Entities.Enums;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Appointify.Domain.Entities
 {
@@ -29,19 +31,51 @@ namespace Appointify.Domain.Entities
             return true;
         }
 
+        public void SetTypeToEmployee()
+        {
+            var permissions = new string[]
+            {
+                "users:getById",
+                "users:update",
+            };
+
+            Type = UserType.Employee;
+            Permissions = permissions
+                .Select(permission => new Permission(this, permission)).ToList();
+        }
+
+        public void SetTypeToOwner()
+        {
+            var permissions = new string[]
+            {
+                "companies:getById",
+                "companies:update",
+                "services:getAll",
+                "services: getById",
+                "services:create",
+                "services:update",
+                "services:delete",
+                "users:getAll",
+                "users:getById",
+                "users:update"
+            };
+
+            Type = UserType.Owner;
+            Permissions = permissions
+                .Select(permission => new Permission(this, permission)).ToList();
+        }
+
         public User() { }
 
         public User(
             string name, 
             string completeName, 
-            string password, 
-            UserType type, 
+            string password,
             Company company)
         {
             Name = name;
             CompleteName = completeName;
             Password = password;
-            Type = type;
             Company = company;
             CompanyId = company.Id;
         }

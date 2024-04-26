@@ -1,6 +1,7 @@
 ﻿using Appointify.Domain;
 using Appointify.Domain.Authentication;
 using Appointify.Domain.Entities;
+using Appointify.Domain.Entities.Enums;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
@@ -38,15 +39,7 @@ namespace Appointify.Application.Commands.Services.Create
 
             var userClaims = _httpContext.GetUserClaims();
 
-            var companyHasUser = company.HasUser(userClaims.Id);
-
-            if (!companyHasUser)
-            {
-                _notification.AddBadRequest("Usuário não pertence à Empresa.");
-                return default;
-            }
-
-            var canEditCompany = company.CanEdit(userClaims.Id);
+            var canEditCompany = company.CanEdit(userClaims);
 
             if (!canEditCompany)
             {

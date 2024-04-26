@@ -1,5 +1,7 @@
 ﻿using Appointify.Domain.Entities;
+using Appointify.Domain.Entities.Enums;
 using Appointify.Domain.Repositories;
+using Appointify.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Appointify.Infrastructure.Repositories
@@ -10,18 +12,25 @@ namespace Appointify.Infrastructure.Repositories
         {
         }
 
-        public Task<User?> GetByNameAsync(string name)
-        {
-            return Query
-                .Include(u => u.Permissions)
-                .FirstOrDefaultAsync(u => u.Name == name);
-        }
+        public override Task<List<User>> GetAllAsync() =>
+            Query
+                .Include(u => u.Company)
+                .ToListAsync();
 
-        public Task<bool> VerifyCompanyAsync(Guid id, Guid companyId)
-        {
-            return Query
-                .Where(u => u.Id == id)
-                .AnyAsync(u => u.CompanyId == companyId);
-        }
+        public Task<User?> GetByNameAsync(string name) =>
+            Query.FirstOrDefaultAsync(u => u.Name == name);
+
+        public Task<User?> GetByIdToDeleteAsync(Guid id) =>
+            Query
+                .Include(u => u.Permissions)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+        public Task<List<User>> GetFilteredAsync(Guid? companyId, string? name, string? completeName, UserType? type) =>
+           Query
+               .ConditionalFilter(c => c.CompanyId == companyId, companyId.HasValue && companyId != Guid.Empty)
+               .ConditionalFilter(c => c.Name.ToLower().Contains(name.ToLower()), !string.IsNullOrEmpty(name))
+               .ConditionalFilter(c => c.CompleteName.ToLower().Contains(completeName.ToLower()), !string.IsNullOrEmpty(completeName))
+               .ConditionalFilter(c => c.Type.Equals(type), type.HasValue)
+               .ToListAsync();
     }
 }

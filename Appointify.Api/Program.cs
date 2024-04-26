@@ -12,6 +12,7 @@ using FluentValidation;
 using MediatR;
 using Appointify.Api.Extensions;
 using Appointify.Infrastructure.Authentication;
+using Appointify.Application.Commands.Companies.Update;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,6 +75,11 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("services:create", policy => policy.RequireClaim("permissions", "services:create"));
     options.AddPolicy("services:update", policy => policy.RequireClaim("permissions", "services:update"));
     options.AddPolicy("services:delete", policy => policy.RequireClaim("permissions", "services:delete"));
+    options.AddPolicy("users:getAll", policy => policy.RequireClaim("permissions", "users:getAll"));
+    options.AddPolicy("users:getById", policy => policy.RequireClaim("permissions", "users:getById"));
+    options.AddPolicy("users:create", policy => policy.RequireClaim("permissions", "users:create"));
+    options.AddPolicy("users:update", policy => policy.RequireClaim("permissions", "users:update"));
+    options.AddPolicy("users:delete", policy => policy.RequireClaim("permissions", "users:delete"));
 });
 
 
