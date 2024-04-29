@@ -53,14 +53,7 @@ namespace Appointify.Application.Commands.Users.Create
                 hashedPassword,
                 company);
 
-            if (command.IsOwner)
-            {
-                newUser.SetTypeToOwner();
-            } 
-            else
-            {
-                newUser.SetTypeToEmployee();
-            }
+            newUser.SetType(command.IsOwner);
 
             _userRepository.Add(newUser);
             await _userRepository.UnitOfWork.CommitAsync();

@@ -1,4 +1,5 @@
-﻿using Appointify.Domain.Entities.Enums;
+﻿using Appointify.Domain.Entities.Dtos;
+using Appointify.Domain.Entities.Enums;
 using System.Collections.ObjectModel;
 
 namespace Appointify.Domain.Entities
@@ -31,6 +32,28 @@ namespace Appointify.Domain.Entities
         }
 
         public bool IsStandard() => Plan.Name == "Standard";
+
+        public List<AvailableTimeDto> GetAvailableTimes(DateTime date, TimeSpan serviceInterval)
+        {
+            var availableTimes = new List<AvailableTimeDto>();
+
+            foreach (var user in Users)
+            {
+                var userTimes = user.GetAvailableTimes(date, serviceInterval);
+
+                foreach (var time in userTimes)
+                {
+                    var timeExists = availableTimes.Any(at => at.Time == time);
+                    
+                    if (!timeExists)
+                    {
+                        availableTimes.Add(new AvailableTimeDto(time, user.Id));
+                    }
+                }
+            }
+
+            return availableTimes;
+        }
 
         public Company(
             string name,

@@ -22,6 +22,33 @@ namespace Appointify.Domain.Entities
 
         public List<Permission> Permissions { get; set; } = new List<Permission>();
 
+        public List<TimeSpan> GetAvailableTimes(DateTime initialDate, TimeSpan serviceInterval)
+        {
+            var availableTimes = new List<TimeSpan>();
+            var interval = new TimeSpan();
+
+            for (var time = Company.Open; time < Company.Close; time += TimeSpan.FromMinutes(1))
+            {
+                var date = initialDate.Add(time);
+                var _event = Events.FirstOrDefault(e => e.Date == date);
+
+                if (_event != null)
+                {
+                    time += _event.Service.Interval;
+                    interval = new TimeSpan();
+                }
+
+                if (interval == serviceInterval)
+                {
+                    availableTimes.Add(date.TimeOfDay);
+                    interval = new TimeSpan();
+                }
+
+                interval += TimeSpan.FromMinutes(1);
+            }
+            return availableTimes;
+        }
+
         public bool IsAvailable(DateTime initialDate, TimeSpan serviceInterval)
         {
             for (var date = initialDate; date < initialDate + serviceInterval; date += TimeSpan.FromMinutes(1))
@@ -31,39 +58,34 @@ namespace Appointify.Domain.Entities
             return true;
         }
 
-        public void SetTypeToEmployee()
+        public void SetType(bool isOwner)
         {
-            var permissions = new string[]
-            {
-                "users:getById",
-                "users:update",
-            };
+            var permissions = isOwner ? OwnerPermissions() : EmployeePermissions();
 
-            Type = UserType.Employee;
             Permissions = permissions
                 .Select(permission => new Permission(this, permission)).ToList();
+            Type = isOwner ? UserType.Owner : UserType.Employee;
         }
 
-        public void SetTypeToOwner()
+        private string[] EmployeePermissions() => new string[] 
         {
-            var permissions = new string[]
-            {
-                "companies:getById",
-                "companies:update",
-                "services:getAll",
-                "services: getById",
-                "services:create",
-                "services:update",
-                "services:delete",
-                "users:getAll",
-                "users:getById",
-                "users:update"
-            };
+            "users:getById",
+            "users:update",
+        };
 
-            Type = UserType.Owner;
-            Permissions = permissions
-                .Select(permission => new Permission(this, permission)).ToList();
-        }
+        private string[] OwnerPermissions() => new string[]
+        {
+            "companies:getById",
+            "companies:update",
+            "services:getAll",
+            "services: getById",
+            "services:create",
+            "services:update",
+            "services:delete",
+            "users:getAll",
+            "users:getById",
+            "users:update"
+        };
 
         public User() { }
 

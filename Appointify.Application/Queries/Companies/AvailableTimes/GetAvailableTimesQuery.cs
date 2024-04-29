@@ -1,9 +1,9 @@
-﻿using MediatR;
-using System.Text.Json.Serialization;
+﻿using Appointify.Application.Queries.Dtos;
+using MediatR;
 
 namespace Appointify.Application.Queries.Companies.AvailableTimes
 {
-    public class GetAvailableTimesQuery : IRequest<IEnumerable<string>>
+    public class GetAvailableTimesQuery : IRequest<IEnumerable<AvailableTimeDto>?>
     {
         public GetAvailableTimesQuery WithId(Guid id)
         {

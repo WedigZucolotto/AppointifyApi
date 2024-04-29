@@ -1,10 +1,11 @@
-﻿using Appointify.Domain.Notifications;
+﻿using Appointify.Application.Queries.Dtos;
+using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
 
 namespace Appointify.Application.Queries.Companies.AvailableTimes
 {
-    public class GetCompanyByIdQueryHandler : IRequestHandler<GetAvailableTimesQuery, IEnumerable<string>>
+    public class GetCompanyByIdQueryHandler : IRequestHandler<GetAvailableTimesQuery, IEnumerable<AvailableTimeDto>?>
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly IServiceRepository _serviceRepository;
@@ -20,7 +21,7 @@ namespace Appointify.Application.Queries.Companies.AvailableTimes
             _notification = notification;
         }
 
-        public async Task<IEnumerable<string>> Handle(GetAvailableTimesQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<AvailableTimeDto>?> Handle(GetAvailableTimesQuery query, CancellationToken cancellationToken)
         {
             var company = await _companyRepository.GetByIdAsync(query.Id);
 
@@ -38,56 +39,31 @@ namespace Appointify.Application.Queries.Companies.AvailableTimes
                 return default;
             }
 
-            var isCompanyService = company.Services.Any(s => s.Id == query.ServiceId);
-
-            if (!isCompanyService)
+            if (service.CompanyId != company.Id)
             {
                 _notification.AddBadRequest("Serviço não viculado a empresa.");
                 return default;
             }
 
-            var events = company.Events();
+            var userSelected = query.UserId != null;
+            var date = DateTime.Parse(query.Date);
 
-            if (query.UserId != null)
+            if (userSelected)
             {
-                var user = company.Users.FirstOrDefault(u => u.Id == query.Id);
+                var user = company.Users.FirstOrDefault(u => u.Id == query.UserId);
 
                 if (user == null)
                 {
                     _notification.AddNotFound("Usuário não encontrado.");
                     return default;
-                }
+                };
 
-                events = user.Events;
+                var userTimes = user.GetAvailableTimes(date, service.Interval);
+                return userTimes.Select(time => new AvailableTimeDto(time.ToString(@"hh\:mm"), user.Id));
             }
 
-            var intialDate = DateTime.Parse(query.Date);
-            var accumulatedTime = new TimeSpan();
-            var availableTimes = new List<TimeSpan>();
-
-            // quando for da company => fazer for com funcionarios
-            for (var time = company.Open; time < company.Close; time += TimeSpan.FromMinutes(1))
-            {
-                var date = intialDate.Add(time);
-                var _event = events.FirstOrDefault(e => e.Date == date);
-
-                if (_event != null)
-                {
-                    time += _event.Service.Interval;
-                    accumulatedTime = new TimeSpan();
-                    continue;
-                }
-
-                if (service.Interval == accumulatedTime)
-                {
-                    availableTimes.Add(time);
-                    accumulatedTime = new TimeSpan();
-                }
-
-                accumulatedTime += TimeSpan.FromMinutes(1);
-            }
-
-            return availableTimes.Select(time => time.ToString(@"hh\:mm"));
+            var companyTimes = company.GetAvailableTimes(date, service.Interval);
+            return companyTimes.Select(at => new AvailableTimeDto(at.Time.ToString(@"hh\:mm"), at.UserId));
         }
     }
 }

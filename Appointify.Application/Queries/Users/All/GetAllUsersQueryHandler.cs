@@ -62,7 +62,7 @@ namespace Appointify.Application.Queries.Users.All
                     user.Id,
                     user.Name,
                     user.CompleteName,
-                    user.Type.ToString(),
+                    user.Type,
                     user.Company.Name));
         }
     }

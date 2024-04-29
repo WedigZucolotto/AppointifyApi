@@ -1,4 +1,6 @@
-﻿namespace Appointify.Application.Queries.Users.ById
+﻿using Appointify.Domain.Entities.Enums;
+
+namespace Appointify.Application.Queries.Users.ById
 {
     public class GetUserByIdQueryResponse
     {
@@ -6,7 +8,7 @@
             Guid id,
             string name,
             string completeName,
-            string type,
+            UserType type,
             Guid companyId)
         {
             Id = id;
@@ -22,7 +24,7 @@
 
         public string CompleteName { get; set; } = string.Empty;
 
-        public string Type { get; set; } = string.Empty;
+        public UserType Type { get; set; }
 
         public Guid CompanyId { get; set; }
     }

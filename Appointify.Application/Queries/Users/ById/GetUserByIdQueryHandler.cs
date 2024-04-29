@@ -32,7 +32,7 @@ namespace Appointify.Application.Queries.Users.ById
                 user.Id,
                 user.Name, 
                 user.CompleteName, 
-                user.Type.ToString(), 
+                user.Type, 
                 user.CompanyId);
         }
     }

@@ -19,10 +19,11 @@ namespace Appointify.Infrastructure.Repositories
                 .ConditionalFilter(c => c.PlanId == planId, planId.HasValue && planId != Guid.Empty)
                 .ToListAsync();
 
-        public override Task<Company?> GetByIdAsync(Guid id) => Query
-            .Include(c => c.Plan)
-            .Include(c => c.Users)
-            .Include(c => c.Services)
-            .FirstOrDefaultAsync(c => c.Id == id);
+        public override Task<Company?> GetByIdAsync(Guid id) => 
+            Query
+                .Include(c => c.Plan)
+                .Include(c => c.Users).ThenInclude(u => u.Events)
+                .Include(c => c.Services)
+                .FirstOrDefaultAsync(c => c.Id == id);
     }
 }
