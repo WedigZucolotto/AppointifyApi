@@ -8,7 +8,7 @@ namespace Appointify.Application.Queries.Users.All
             Guid id,
             string name,
             string completeName,
-            UserType type,
+            string type,
             string companyName)
         {
             Id = id;
@@ -24,7 +24,7 @@ namespace Appointify.Application.Queries.Users.All
 
         public string CompleteName { get; set; } = string.Empty;
 
-        public UserType Type { get; set; }
+        public string Type { get; set; }
 
         public string CompanyName { get; set; }
     }

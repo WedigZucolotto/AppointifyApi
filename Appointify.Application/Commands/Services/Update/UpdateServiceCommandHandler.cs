@@ -41,7 +41,7 @@ namespace Appointify.Application.Commands.Services.Update
 
             if (!canEditService)
             {
-                _notification.AddBadRequest("Você não tem permissão para realizar essa operação.");
+                _notification.AddUnauthorized("Você não tem permissão para realizar essa operação.");
                 return default;
             }
 

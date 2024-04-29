@@ -5,7 +5,6 @@ using Appointify.Application.Queries.Companies.All;
 using Appointify.Application.Queries.Companies.AvailableTimes;
 using Appointify.Application.Queries.Companies.ById;
 using Appointify.Application.Queries.Companies.ToSchedule;
-using Appointify.Application.Queries.Companies.Ids;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Appointify.Infrastructure.Authentication;
@@ -62,14 +61,6 @@ namespace Appointify.Api.Controllers
             await _mediator.Send(new DeleteCompanyCommand(id));
             return NoContent();
         }
-
-        [HttpGet("ids")]
-        public async Task<IActionResult> GetIdsAsync()
-        {
-            var ids = await _mediator.Send(new GetAllCompaniesIdsQuery());
-            return Ok(ids);
-        }
-
 
         [HttpGet("{id}/available-times")]
         public async Task<IActionResult> GetAvailableTimesAsync([FromRoute] Guid id, [FromQuery] GetAvailableTimesQuery query)

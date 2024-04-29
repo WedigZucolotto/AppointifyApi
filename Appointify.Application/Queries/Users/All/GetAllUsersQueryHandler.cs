@@ -49,7 +49,7 @@ namespace Appointify.Application.Queries.Users.All
 
                 if (!canEditCompany)
                 {
-                    _notification.AddBadRequest("Você não tem permissão para realizar essa operação.");
+                    _notification.AddUnauthorized("Você não tem permissão para realizar essa operação.");
                     return default;
                 }
             }
@@ -62,7 +62,7 @@ namespace Appointify.Application.Queries.Users.All
                     user.Id,
                     user.Name,
                     user.CompleteName,
-                    user.Type,
+                    user.Type.ToString(),
                     user.Company.Name));
         }
     }

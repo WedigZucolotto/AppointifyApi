@@ -27,6 +27,7 @@ namespace Appointify.Infrastructure.Repositories
 
         public Task<List<User>> GetFilteredAsync(Guid? companyId, string? name, string? completeName, UserType? type) =>
            Query
+               .Include(u => u.Company)
                .ConditionalFilter(c => c.CompanyId == companyId, companyId.HasValue && companyId != Guid.Empty)
                .ConditionalFilter(c => c.Name.ToLower().Contains(name.ToLower()), !string.IsNullOrEmpty(name))
                .ConditionalFilter(c => c.CompleteName.ToLower().Contains(completeName.ToLower()), !string.IsNullOrEmpty(completeName))

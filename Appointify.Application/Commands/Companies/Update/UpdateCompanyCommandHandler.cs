@@ -41,7 +41,7 @@ namespace Appointify.Application.Commands.Companies.Update
 
             if (!canEditCompany)
             {
-                _notification.AddBadRequest("Você não tem permissão para realizar essa operação.");
+                _notification.AddUnauthorized("Você não tem permissão para realizar essa operação.");
                 return default;
             }
 
