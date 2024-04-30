@@ -2,6 +2,7 @@
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
+using System.Globalization;
 
 namespace Appointify.Application.Queries.Companies.AvailableTimes
 {
@@ -46,7 +47,9 @@ namespace Appointify.Application.Queries.Companies.AvailableTimes
             }
 
             var userSelected = query.UserId != null;
-            var date = DateTime.Parse(query.Date);
+
+            var culture = new CultureInfo("pt-BR");
+            var date = DateTime.Parse(query.Date, culture);
 
             if (userSelected)
             {
