@@ -34,6 +34,7 @@
         {
             public const string GetAll = "users:getAll";
             public const string GetById = "users:getById";
+            public const string GetWeek = "users:getWeek";
             public const string Create = "users:create";
             public const string Update = "users:update";
             public const string Delete = "users:delete";

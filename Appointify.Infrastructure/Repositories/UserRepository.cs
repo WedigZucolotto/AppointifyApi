@@ -17,6 +17,11 @@ namespace Appointify.Infrastructure.Repositories
                 .Include(u => u.Company)
                 .ToListAsync();
 
+        public override Task<User?> GetByIdAsync(Guid id) =>
+            Query
+                .Include(u => u.Events)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
         public Task<User?> GetByNameAsync(string name) =>
             Query.FirstOrDefaultAsync(u => u.Name == name);
 

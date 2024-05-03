@@ -4,9 +4,9 @@ using Appointify.Application.Commands.Users.Login;
 using Appointify.Application.Commands.Users.Update;
 using Appointify.Application.Queries.Users.All;
 using Appointify.Application.Queries.Users.ById;
+using Appointify.Application.Queries.Users.Week;
 using Appointify.Infrastructure.Authentication;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Appointify.Api.Controllers
@@ -36,6 +36,14 @@ namespace Appointify.Api.Controllers
         {
             var user = await _mediator.Send(new GetUserByIdQuery(id));
             return Ok(user);
+        }
+
+        [HttpGet("{id}/week")]
+        [HasPermission(Permissions.Users.GetWeek)]
+        public async Task<IActionResult> GetWeekAsync([FromRoute] Guid id, [FromQuery] string date)
+        {
+            var week = await _mediator.Send(new GetUserWeekQuery(id, date));
+            return Ok(week);
         }
 
         [HttpPost("login")]

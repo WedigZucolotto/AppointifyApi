@@ -4,6 +4,8 @@ using Appointify.Domain.Entities;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Globalization;
 
 namespace Appointify.Application.Commands.Events.Create
 {
@@ -51,7 +53,9 @@ namespace Appointify.Application.Commands.Events.Create
             }
 
             var description = $"Marcado por: {command.Name} às {new DateTime()}\nContato: {command.Contact}";
-            var date = DateTime.Parse(command.Date);
+            
+            var culture = new CultureInfo("pt-BR");
+            var date = DateTime.Parse(command.Date, culture);
 
             var userAvailable = user.IsAvailable(date, service.Interval);
 
