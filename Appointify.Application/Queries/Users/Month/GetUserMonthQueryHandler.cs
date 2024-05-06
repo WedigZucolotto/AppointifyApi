@@ -1,19 +1,20 @@
 ﻿using Appointify.Application.Queries.Dtos;
+using Appointify.Application.Queries.Users.Week;
 using Appointify.Domain.Authentication;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
 using System.Globalization;
 
-namespace Appointify.Application.Queries.Users.Week
+namespace Appointify.Application.Queries.Users.Month
 {
-    public class GetUserWeekQueryHandler : IRequestHandler<GetUserWeekQuery, IEnumerable<GetUserWeekQueryResponse>?>
+    public class GetUserMonthQueryHandler : IRequestHandler<GetUserMonthQuery, IEnumerable<GetUserMonthQueryResponse>?>
     {
         private readonly IUserRepository _userRepository;
         private readonly INotificationContext _notification;
         private readonly IHttpContext _httpContext;
 
-        public GetUserWeekQueryHandler(
+        public GetUserMonthQueryHandler(
             IUserRepository userRepository,
             INotificationContext notification,
             IHttpContext httpContext)
@@ -23,7 +24,7 @@ namespace Appointify.Application.Queries.Users.Week
             _httpContext = httpContext;
         }
 
-        public async Task<IEnumerable<GetUserWeekQueryResponse>?> Handle(GetUserWeekQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<GetUserMonthQueryResponse>?> Handle(GetUserMonthQuery query, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(query.Id);
 
@@ -46,31 +47,37 @@ namespace Appointify.Application.Queries.Users.Week
 
             var dayOfweek = (int)queryDate.DayOfWeek;
             var initialDate = queryDate.AddDays(-dayOfweek);
-            var finalDate = initialDate.AddDays(6);
+            var monthDays = DateTime.DaysInMonth(initialDate.Year, initialDate.Month);
+            var dateWithMonth = initialDate.AddDays(monthDays);
+            var finalDate = dateWithMonth.AddDays(7 - (int)dateWithMonth.DayOfWeek);
 
-            var days = new List<GetUserWeekQueryResponse>();
+            var days = new List<GetUserMonthQueryResponse>();
 
             for (var date = initialDate; date <= finalDate; date = date.AddDays(1))
             {
-                var hourEvents = new Dictionary<string, IEnumerable<EventDto>>();
+                var dayEvents = new List<EventDto>();
 
-                for (var hours = 0; hours < 24; hours++)
+                for (var hours = 0; hours < 24 || dayEvents.Count == 3; hours++)
                 {
                     var dateStart = date.AddHours(hours);
                     var dateEnd = dateStart.AddHours(1);
 
-                    var events = user.Events
-                        .Where(e => e.Date >= dateStart && e.Date < dateEnd)
-                        .Select(e => new EventDto(e.Id, e.Title, e.Date.ToString("HH:mm")));
-
-                    hourEvents.Add(dateStart.ToString("HH:mm"), events);
+                    foreach (var _event in user.Events)
+                    {
+                        if (_event.Date >= dateStart && _event.Date < dateEnd)
+                        {
+                            var newEvent = new EventDto(_event.Id, _event.Title, _event.Date.ToString("HH:mm"));
+                            dayEvents.Add(newEvent);
+                        }
+                    }
                 }
 
                 var weekName = culture.DateTimeFormat.GetDayName(date.DayOfWeek);
                 var weekNameFormated = weekName[..3].ToUpper();
                 var day = date.Day.ToString();
+                int? more = dayEvents.Count > 3 ? dayEvents.Count - 3 : null;
 
-                days.Add(new GetUserWeekQueryResponse(day, weekNameFormated, hourEvents));
+                days.Add(new GetUserMonthQueryResponse(day, weekNameFormated, dayEvents, more));
             }
 
             return days;
