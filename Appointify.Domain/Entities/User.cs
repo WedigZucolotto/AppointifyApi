@@ -71,6 +71,9 @@ namespace Appointify.Domain.Entities
         {
             "users:getById",
             "users:update",
+            "users:getDay",
+            "users:getWeek",
+            "users:getMonth"
         };
 
         private string[] OwnerPermissions() => new string[]
@@ -84,7 +87,10 @@ namespace Appointify.Domain.Entities
             "services:delete",
             "users:getAll",
             "users:getById",
-            "users:update"
+            "users:update",
+            "users:getDay",
+            "users:getWeek",
+            "users:getMonth"
         };
 
         public User() { }

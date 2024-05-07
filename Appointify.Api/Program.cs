@@ -80,6 +80,9 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("users:create", policy => policy.RequireClaim("permissions", "users:create"));
     options.AddPolicy("users:update", policy => policy.RequireClaim("permissions", "users:update"));
     options.AddPolicy("users:delete", policy => policy.RequireClaim("permissions", "users:delete"));
+    options.AddPolicy("users:getDay", policy => policy.RequireClaim("permissions", "users:getDay"));
+    options.AddPolicy("users:getWeek", policy => policy.RequireClaim("permissions", "users:getWeek"));
+    options.AddPolicy("users:getMonth", policy => policy.RequireClaim("permissions", "users:getMonth"));
 });
 
 

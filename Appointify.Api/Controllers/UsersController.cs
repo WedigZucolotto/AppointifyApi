@@ -41,7 +41,7 @@ namespace Appointify.Api.Controllers
         }
 
         [HttpGet("{id}/day")]
-        //[HasPermission(Permissions.Users.GetDay)]
+        [HasPermission(Permissions.Users.GetDay)]
         public async Task<IActionResult> GetDayAsync([FromRoute] Guid id, [FromQuery] string date)
         {
             var day = await _mediator.Send(new GetUserDayQuery(id, date));
@@ -49,7 +49,7 @@ namespace Appointify.Api.Controllers
         }
 
         [HttpGet("{id}/week")]
-        //[HasPermission(Permissions.Users.GetWeek)]
+        [HasPermission(Permissions.Users.GetWeek)]
         public async Task<IActionResult> GetWeekAsync([FromRoute] Guid id, [FromQuery] string date)
         {
             var week = await _mediator.Send(new GetUserWeekQuery(id, date));
@@ -57,7 +57,7 @@ namespace Appointify.Api.Controllers
         }
 
         [HttpGet("{id}/month")]
-        //[HasPermission(Permissions.Users.GetMonth)]
+        [HasPermission(Permissions.Users.GetMonth)]
         public async Task<IActionResult> GetMonthAsync([FromRoute] Guid id, [FromQuery] string date)
         {
             var month = await _mediator.Send(new GetUserMonthQuery(id, date));

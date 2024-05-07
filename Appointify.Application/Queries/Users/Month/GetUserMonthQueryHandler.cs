@@ -45,11 +45,15 @@ namespace Appointify.Application.Queries.Users.Month
             var culture = new CultureInfo("pt-BR");
             var queryDate = DateTime.Parse(query.Date, culture);
 
-            var dayOfweek = (int)queryDate.DayOfWeek;
-            var initialDate = queryDate.AddDays(-dayOfweek);
-            var monthDays = DateTime.DaysInMonth(initialDate.Year, initialDate.Month);
-            var dateWithMonth = initialDate.AddDays(monthDays);
-            var finalDate = dateWithMonth.AddDays(7 - (int)dateWithMonth.DayOfWeek);
+            var monthDays = DateTime.DaysInMonth(queryDate.Year, queryDate.Month);
+            var firstDayMonth = new DateTime(queryDate.Year, queryDate.Month, 1);
+            var lastDayMonth = new DateTime(queryDate.Year, queryDate.Month, monthDays);
+
+            var firstDayWeek = (int)firstDayMonth.DayOfWeek;
+            var lastDayWeek = (int)lastDayMonth.DayOfWeek;
+
+            var initialDate = firstDayMonth.AddDays(-firstDayWeek);
+            var finalDate = lastDayMonth.AddDays(6 - lastDayWeek);
 
             var days = new List<GetUserMonthQueryResponse>();
 
