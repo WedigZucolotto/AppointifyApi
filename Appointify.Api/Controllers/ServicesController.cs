@@ -38,10 +38,10 @@ namespace Appointify.Api.Controllers
         }
 
         [HttpGet("options")]
-        public async Task<IActionResult> GetOptionsAsync()
+        public async Task<IActionResult> GetOptionsAsync([FromQuery] GetServiceOptionsQuery query)
         {
-            var services = await _mediator.Send(new GetServiceOptionsQuery());
-            return Ok(services);
+            var options = await _mediator.Send(query);
+            return Ok(options);
         }
 
         [HttpPost]

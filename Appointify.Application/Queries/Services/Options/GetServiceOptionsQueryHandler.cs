@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Appointify.Application.Queries.Services.Options
 {
-    public class GetServiceOptionsQueryHandler : IRequestHandler<GetServiceOptionsQuery, IEnumerable<OptionDto>>
+    public class GetServiceOptionsQueryHandler : IRequestHandler<GetServiceOptionsQuery, IEnumerable<OptionDto>?>
     {
         private readonly IServiceRepository _serviceRepository;
 
@@ -13,9 +13,9 @@ namespace Appointify.Application.Queries.Services.Options
             _serviceRepository = serviceRepository;
         }
 
-        public async Task<IEnumerable<OptionDto>> Handle(GetServiceOptionsQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<OptionDto>?> Handle(GetServiceOptionsQuery query, CancellationToken cancellationToken)
         {
-            var services = await _serviceRepository.GetAllAsync();
+            var services = await _serviceRepository.GetFilteredAsync(query.CompanyId, null);
             return services.Select(s => new OptionDto(s.Name, s.Id));
         }
     }

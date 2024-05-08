@@ -3,7 +3,8 @@ using MediatR;
 
 namespace Appointify.Application.Queries.Services.Options
 {
-    public class GetServiceOptionsQuery : IRequest<IEnumerable<OptionDto>>
+    public class GetServiceOptionsQuery : IRequest<IEnumerable<OptionDto>?>
     {
+        public Guid CompanyId { get; set; }
     }
 }
