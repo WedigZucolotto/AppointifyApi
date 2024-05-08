@@ -25,7 +25,6 @@
         {
             public const string GetAll = "services:getAll";
             public const string GetById = "services:getById";
-            public const string GetOptions = "services:getOptions";
             public const string Create = "services:create";
             public const string Update = "services:update";
             public const string Delete = "services:delete";

@@ -3,7 +3,6 @@ using Appointify.Application.Commands.Services.Delete;
 using Appointify.Application.Commands.Services.Update;
 using Appointify.Application.Queries.Services.All;
 using Appointify.Application.Queries.Services.ById;
-using Appointify.Application.Queries.Services.Options;
 using Appointify.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -35,14 +34,6 @@ namespace Appointify.Api.Controllers
         {
             var service = await _mediator.Send(new GetServiceByIdQuery(id));
             return Ok(service);
-        }
-
-        [HttpGet("options")]
-        [HasPermission(Permissions.Services.GetOptions)]
-        public async Task<IActionResult> GetOptionsAsync([FromQuery] GetServiceOptionsQuery query)
-        {
-            var options = await _mediator.Send(query);
-            return Ok(options);
         }
 
         [HttpPost]

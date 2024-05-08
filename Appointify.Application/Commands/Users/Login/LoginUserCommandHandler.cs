@@ -44,7 +44,7 @@ namespace Appointify.Application.Commands.Users.Login
 
             var token = _jwtProvider.Generate(user);
 
-            return new LoginUserCommandResponse(token, user.Id);
+            return new LoginUserCommandResponse(token, user.CompleteName, user.CompanyId, user.Id);
         }
     }
 }
