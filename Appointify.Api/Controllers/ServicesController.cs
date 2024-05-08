@@ -38,6 +38,7 @@ namespace Appointify.Api.Controllers
         }
 
         [HttpGet("options")]
+        [HasPermission(Permissions.Services.GetOptions)]
         public async Task<IActionResult> GetOptionsAsync([FromQuery] GetServiceOptionsQuery query)
         {
             var options = await _mediator.Send(query);

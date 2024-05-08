@@ -6,8 +6,8 @@ namespace Appointify.Application.Queries.Services.Options
     {
         public GetServiceOptionsQueryValidator() 
         {
-            RuleFor(s => s.CompanyId)
-                .NotEmpty().WithMessage("Propriedade obrigatória: CompanyId");
+            RuleFor(s => s.UserId)
+                .NotEmpty().WithMessage("Propriedade obrigatória: UserId");
         }
     }
 }

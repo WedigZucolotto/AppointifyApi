@@ -5,6 +5,6 @@ namespace Appointify.Application.Queries.Services.Options
 {
     public class GetServiceOptionsQuery : IRequest<IEnumerable<OptionDto>?>
     {
-        public Guid CompanyId { get; set; }
+        public Guid UserId { get; set; }
     }
 }
