@@ -10,18 +10,15 @@ namespace Appointify.Application.Commands.Services.Update
     {
         private readonly INotificationContext _notification;
         private readonly IServiceRepository _serviceRepository;
-        private readonly IUserRepository _userRepository;
         private readonly IHttpContext _httpContext;
 
         public UpdateServiceCommandHandler(
             INotificationContext notification,
             IServiceRepository serviceRepository,
-            IUserRepository userRepository,
             IHttpContext httpContext) 
         {
             _notification = notification;
             _serviceRepository = serviceRepository;
-            _userRepository = userRepository;
             _httpContext = httpContext;
         }
 

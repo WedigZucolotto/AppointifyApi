@@ -25,6 +25,8 @@ namespace Appointify.Infrastructure.Repositories
 
         public void Update(TEntity entity) => Context.Update(entity);
 
+        public void UpdateRange(List<TEntity> entities) => Context.UpdateRange(entities);
+
         public void Remove(TEntity entity) => Context.Remove(entity);
     }
 }

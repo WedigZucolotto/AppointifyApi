@@ -55,6 +55,13 @@ namespace Appointify.Domain.Entities
             return availableTimes;
         }
 
+        public Company SetPlan(Plan plan)
+        {
+            Plan = plan;
+            PlanId = plan.Id;
+            return this;
+        }
+
         public Company(
             string name,
             Plan plan, 

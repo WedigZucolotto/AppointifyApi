@@ -9,6 +9,7 @@ namespace Appointify.Domain.Repositories
         Task<TEntity?> GetByIdAsync(Guid id);
         void Add(TEntity entity);
         void Update(TEntity entity);
+        void UpdateRange(List<TEntity> entities);
         void Remove(TEntity entity);
     }
 }
