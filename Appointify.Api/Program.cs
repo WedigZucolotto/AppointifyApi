@@ -68,7 +68,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("companies:create", policy => policy.RequireClaim("permissions", "companies:create"));
     options.AddPolicy("companies:update", policy => policy.RequireClaim("permissions", "companies:update"));
     options.AddPolicy("companies:delete", policy => policy.RequireClaim("permissions", "companies:delete"));
-    options.AddPolicy("plans:options", policy => policy.RequireClaim("permissions", "plans:options"));
     options.AddPolicy("services:getAll", policy => policy.RequireClaim("permissions", "services:getAll"));
     options.AddPolicy("services:getById", policy => policy.RequireClaim("permissions", "services:getById"));
     options.AddPolicy("services:create", policy => policy.RequireClaim("permissions", "services:create"));
@@ -82,6 +81,13 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("users:getDay", policy => policy.RequireClaim("permissions", "users:getDay"));
     options.AddPolicy("users:getWeek", policy => policy.RequireClaim("permissions", "users:getWeek"));
     options.AddPolicy("users:getMonth", policy => policy.RequireClaim("permissions", "users:getMonth"));
+    options.AddPolicy("events:getAll", policy => policy.RequireClaim("permissions", "events:getAll"));
+    options.AddPolicy("plans:options", policy => policy.RequireClaim("permissions", "plans:options"));
+    options.AddPolicy("plans:getAll", policy => policy.RequireClaim("permissions", "plans:getAll"));
+    options.AddPolicy("plans:getById", policy => policy.RequireClaim("permissions", "plans:getById"));
+    options.AddPolicy("plans:create", policy => policy.RequireClaim("permissions", "plans:create"));
+    options.AddPolicy("plans:update", policy => policy.RequireClaim("permissions", "plans:update"));
+    options.AddPolicy("plans:delete", policy => policy.RequireClaim("permissions", "plans:delete"));
 });
 
 

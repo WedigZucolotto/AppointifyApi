@@ -11,14 +11,19 @@
             public const string Delete = "companies:delete";
         }
 
-        //public static class Events
-        //{
-        //    public const string Create = "events:create";
-        //}
+        public static class Events
+        {
+            public const string GetAll = "events:getAll";
+        }
 
         public static class Plans
         {
             public const string Options = "plans:options";
+            public const string GetAll = "plans:getAll";
+            public const string GetById = "plans:getById";
+            public const string Create = "plans:create";
+            public const string Update = "plans:update";
+            public const string Delete = "plans:delete";
         }
 
         public static class Services

@@ -1,4 +1,7 @@
 ﻿using Appointify.Application.Commands.Events.Create;
+using Appointify.Application.Queries.Companies.All;
+using Appointify.Application.Queries.Events.All;
+using Appointify.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +16,14 @@ namespace Appointify.Api.Controllers
         public EventsController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        [HasPermission(Permissions.Events.GetAll)]
+        public async Task<IActionResult> GetAllAsync([FromQuery] GetAllEventsQuery query)
+        {
+            var events = await _mediator.Send(query);
+            return Ok(events);
         }
 
         [HttpPost]
