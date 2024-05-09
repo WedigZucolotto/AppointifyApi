@@ -1,6 +1,4 @@
-﻿using Appointify.Domain.Entities.Enums;
-
-namespace Appointify.Application.Queries.Users.ById
+﻿namespace Appointify.Application.Queries.Users.ById
 {
     public class GetUserByIdQueryResponse
     {
@@ -8,13 +6,13 @@ namespace Appointify.Application.Queries.Users.ById
             Guid id,
             string name,
             string completeName,
-            string type,
+            bool isOwner,
             Guid companyId)
         {
             Id = id;
             Name = name;
             CompleteName = completeName;
-            Type = type;
+            IsOwner = isOwner;
             CompanyId = companyId;
         }
 
@@ -24,7 +22,7 @@ namespace Appointify.Application.Queries.Users.ById
 
         public string CompleteName { get; set; } = string.Empty;
 
-        public string Type { get; set; }
+        public bool IsOwner { get; set; }
 
         public Guid CompanyId { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using Appointify.Domain.Notifications;
+﻿using Appointify.Domain.Entities.Enums;
+using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
 
@@ -29,7 +30,7 @@ namespace Appointify.Application.Queries.Users.ById
                 user.Id,
                 user.Name, 
                 user.CompleteName, 
-                user.Type.ToString(), 
+                user.Type == UserType.Owner, 
                 user.CompanyId);
         }
     }

@@ -1,6 +1,4 @@
-﻿using Appointify.Domain.Entities.Enums;
-
-namespace Appointify.Application.Queries.Users.All
+﻿namespace Appointify.Application.Queries.Users.All
 {
     public class GetAllUsersQueryResponse
     {

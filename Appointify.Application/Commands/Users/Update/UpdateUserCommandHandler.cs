@@ -48,6 +48,11 @@ namespace Appointify.Application.Commands.Users.Update
                 user.CompleteName = command.CompleteName;
             }
 
+            if (command.IsOwner != null)
+            {
+                user.SetType(command.IsOwner.Value);
+            }
+
             _userRepository.Update(user);
             await _userRepository.UnitOfWork.CommitAsync();
 
