@@ -1,7 +1,6 @@
 ﻿using Appointify.Domain;
 using Appointify.Domain.Authentication;
 using Appointify.Domain.Entities;
-using Appointify.Domain.Entities.Enums;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;

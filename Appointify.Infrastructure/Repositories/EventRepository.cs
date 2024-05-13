@@ -11,12 +11,15 @@ namespace Appointify.Infrastructure.Repositories
         {
         }
 
-        public Task<List<Event>> GetFilteredAsync(string? title, DateTime? date, string? serviceName) =>
+        public Task<List<Event>> GetFilteredAsync(string? title, DateTime? date, string? serviceName, Guid? userId, Guid? companyId) =>
             Query
                 .Include(e => e.Service)
+                .Include(e => e.User)
                 .ConditionalFilter(e => e.Title.ToLower().Contains(title.ToLower()), !string.IsNullOrEmpty(title))
-                .ConditionalFilter(e => e.Date.Date.Equals(date), date != null)
                 .ConditionalFilter(e => e.Service.Name.ToLower().Contains(serviceName.ToLower()), !string.IsNullOrEmpty(serviceName))
+                .ConditionalFilter(e => e.Date.Date.Equals(date.Value.Date), date != null)
+                .ConditionalFilter(e => e.UserId.Equals(userId), userId != Guid.Empty)
+                .ConditionalFilter(e => e.User.CompanyId.Equals(companyId), companyId != Guid.Empty)
                 .ToListAsync();
     }
 }

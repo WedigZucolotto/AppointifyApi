@@ -1,5 +1,7 @@
 ﻿using Appointify.Domain.Repositories;
 using MediatR;
+using System.Globalization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Appointify.Application.Queries.Events.All
 {
@@ -14,7 +16,20 @@ namespace Appointify.Application.Queries.Events.All
 
         public async Task<IEnumerable<GetAllEventsQueryResponse>> Handle(GetAllEventsQuery query, CancellationToken cancellationToken)
         {
-            var events = await _eventRepository.GetFilteredAsync(query.Title, query.Date, query.ServiceName);
+            var culture = new CultureInfo("pt-BR");
+            DateTime? date = null;
+
+            if (query.Date != null)
+            {
+                date = DateTime.Parse(query.Date, culture);
+            }
+
+            var events = await _eventRepository.GetFilteredAsync(
+                query.Title,
+                date, 
+                query.ServiceName,
+                query.UserId,
+                query.CompanyId);
 
             return events.Select(
                 _event => new GetAllEventsQueryResponse(

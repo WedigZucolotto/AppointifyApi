@@ -4,7 +4,6 @@ using Appointify.Domain.Entities;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Globalization;
 
 namespace Appointify.Application.Commands.Events.Create
@@ -52,7 +51,12 @@ namespace Appointify.Application.Commands.Events.Create
                 return default;
             }
 
-            var description = $"Marcado por: {command.Name} às {new DateTime()}\nContato: {command.Contact}";
+            var title = $"{command.Name} - {service.Name}";
+
+            var description = 
+                $"Marcado por: {command.Name} às {DateTime.Now.ToLocalTime()}\n" +
+                $"Contato: {command.Contact}\n" +
+                $"Serviço: {service.Name}";
             
             var culture = new CultureInfo("pt-BR");
             var date = DateTime.Parse(command.Date, culture);
@@ -65,7 +69,7 @@ namespace Appointify.Application.Commands.Events.Create
                 return default;
             }
 
-            var _event = new Event(command.Name, description, date, user, service);
+            var _event = new Event(title, description, date, user, service);
 
             _eventRepository.Add(_event);
             await _eventRepository.UnitOfWork.CommitAsync();
