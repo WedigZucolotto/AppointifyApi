@@ -5,8 +5,8 @@ namespace Appointify.Infrastructure.Authentication
 {
     public class PasswordHasher : IPasswordHasher
     {
-        private const int SaltSize = 128 / 8;
-        private const int KeySize = 256 / 8;
+        private const int SaltSize = 16;
+        private const int KeySize = 32;
         private const int Iterations = 10000;
         private const char Delimiter = ';';
         private static readonly HashAlgorithmName hashAlgorithmName = HashAlgorithmName.SHA256;

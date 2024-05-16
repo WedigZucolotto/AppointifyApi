@@ -18,7 +18,7 @@ namespace Appointify.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         [HasPermission(Permissions.Events.GetById)]
         public async Task<IActionResult> GetByIdAsync([FromQuery] GetEventByIdQuery query)
         {
