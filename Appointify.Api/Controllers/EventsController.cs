@@ -20,9 +20,9 @@ namespace Appointify.Api.Controllers
 
         [HttpGet("{id}")]
         [HasPermission(Permissions.Events.GetById)]
-        public async Task<IActionResult> GetByIdAsync([FromQuery] GetEventByIdQuery query)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
-            var events = await _mediator.Send(query);
+            var events = await _mediator.Send(new GetEventByIdQuery(id));
             return Ok(events);
         }
 
