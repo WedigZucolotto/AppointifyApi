@@ -1,7 +1,6 @@
 ﻿using Appointify.Domain;
 using Appointify.Domain.Authentication;
 using Appointify.Domain.Entities;
-using Appointify.Domain.Entities.Enums;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
@@ -37,21 +36,11 @@ namespace Appointify.Application.Commands.Services.Create
                 return default;
             }
 
-            var userClaims = _httpContext.GetUserClaims();
+            var userId = _httpContext.GetUserId();
 
-            var canEditCompany = company.CanEdit(userClaims);
-
-            if (!canEditCompany)
+            if (!company.IsOwner(userId))
             {
                 _notification.AddUnauthorized("Você não tem permissão para realizar essa operação.");
-                return default;
-            }
-
-            var isStandard = company.IsStandard();
-
-            if (isStandard)
-            {
-                _notification.AddBadRequest("Plano insuficiente.");
                 return default;
             }
 

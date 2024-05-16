@@ -1,6 +1,6 @@
 ﻿using Appointify.Application.Commands.Events.Create;
-using Appointify.Application.Queries.Companies.All;
-using Appointify.Application.Queries.Events.All;
+using Appointify.Application.Commands.Events.Delete;
+using Appointify.Application.Queries.Events.ById;
 using Appointify.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +19,8 @@ namespace Appointify.Api.Controllers
         }
 
         [HttpGet]
-        [HasPermission(Permissions.Events.GetAll)]
-        public async Task<IActionResult> GetAllAsync([FromQuery] GetAllEventsQuery query)
+        [HasPermission(Permissions.Events.GetById)]
+        public async Task<IActionResult> GetByIdAsync([FromQuery] GetEventByIdQuery query)
         {
             var events = await _mediator.Send(query);
             return Ok(events);
@@ -30,6 +30,14 @@ namespace Appointify.Api.Controllers
         public async Task<IActionResult> CreateAsync([FromBody] CreateEventCommand command)
         {
             await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        [HasPermission(Permissions.Events.Delete)]
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
+        {
+            await _mediator.Send(new DeleteEventCommand(id));
             return NoContent();
         }
     }

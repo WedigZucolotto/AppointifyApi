@@ -1,5 +1,4 @@
 ﻿using Appointify.Domain.Entities.Dtos;
-using Appointify.Domain.Entities.Enums;
 using System.Collections.ObjectModel;
 
 namespace Appointify.Domain.Entities
@@ -20,18 +19,10 @@ namespace Appointify.Domain.Entities
 
         public List<Service> Services { get; set; } = new List<Service>();
 
-        public List<Event> Events() => Users.SelectMany(u => u.Events).ToList();
+        public List<Event> GetEvents() => Users.SelectMany(u => u.Events).ToList();
 
-        public bool CanEdit((Guid? Id, UserType? Type) user)
-        {
-            var isOwnerUser = Users
-                .Where(u => u.Type is UserType.Owner)
-                .Any(u => u.Id == user.Id);
-
-            return isOwnerUser || user.Type == UserType.Admin;
-        }
-
-        public bool IsStandard() => Plan.Name == "Standard";
+        public bool IsOwner(Guid? userId) => 
+            Users.Any(u => u.Id == userId && u.IsOwner);
 
         public List<AvailableTimeDto> GetAvailableTimes(DateTime date, TimeSpan serviceInterval)
         {
@@ -53,26 +44,6 @@ namespace Appointify.Domain.Entities
             }
 
             return availableTimes;
-        }
-
-        public Company SetPlan(Plan plan)
-        {
-            Plan = plan;
-            PlanId = plan.Id;
-            return this;
-        }
-
-        public Company(
-            string name,
-            Plan plan, 
-            TimeSpan open, 
-            TimeSpan close)
-        {
-            Name = name;
-            Plan = plan;
-            PlanId = plan.Id;
-            Open = open;
-            Close = close;
         }
 
         public Company() { }

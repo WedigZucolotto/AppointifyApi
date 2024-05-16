@@ -33,8 +33,6 @@ namespace Appointify.Infrastructure
 
         public DbSet<Event> Events { get; set; }
 
-        public DbSet<Plan> Plans { get; set; }
-
         public DbSet<Service> Services { get; set; }
 
         public DbSet<Permission> Permissions { get; set; }
@@ -52,11 +50,11 @@ namespace Appointify.Infrastructure
                 if (entry.State == EntityState.Added)
                 {
                     entity.CreatedAt = DateTime.UtcNow;
-                    entity.CreatedBy = _httpContext.GetUserClaims().Id;
+                    entity.CreatedBy = _httpContext.GetUserId();
                 }
 
                 entity.ModifiedAt = DateTime.UtcNow;
-                entity.ModifiedBy = _httpContext.GetUserClaims().Id;
+                entity.ModifiedBy = _httpContext.GetUserId();
             }
 
             await SaveChangesAsync();
@@ -67,9 +65,9 @@ namespace Appointify.Infrastructure
             modelBuilder.ApplyConfiguration(new CompanyMapping());
             modelBuilder.ApplyConfiguration(new UserMapping());
             modelBuilder.ApplyConfiguration(new EventMapping());
-            modelBuilder.ApplyConfiguration(new PlanMapping());
             modelBuilder.ApplyConfiguration(new ServiceMapping());
             modelBuilder.ApplyConfiguration(new PermissionMapping());
+            modelBuilder.ApplyConfiguration(new PlanMapping());
         }
     }
 }

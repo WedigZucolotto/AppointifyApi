@@ -11,6 +11,11 @@ namespace Appointify.Infrastructure.Repositories
         {
         }
 
+        public override Task<Event?> GetByIdAsync(Guid id) =>
+            Query
+                .Include(e => e.Service)
+                .FirstOrDefaultAsync(e => e.Id == id);
+
         public Task<List<Event>> GetFilteredAsync(string? title, DateTime? date, string? serviceName, Guid? userId, Guid? companyId) =>
             Query
                 .Include(e => e.Service)

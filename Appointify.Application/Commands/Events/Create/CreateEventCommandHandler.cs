@@ -40,8 +40,7 @@ namespace Appointify.Application.Commands.Events.Create
                 return default;
             }
 
-            var userClaims = _httpContext.GetUserClaims();
-            var userId = userClaims.Id ?? command.UserId;
+            var userId = _httpContext.GetUserId() ?? command.UserId;
 
             var user = await _userRepository.GetByIdAsync(userId);
 
@@ -61,9 +60,7 @@ namespace Appointify.Application.Commands.Events.Create
             var culture = new CultureInfo("pt-BR");
             var date = DateTime.Parse(command.Date, culture);
 
-            var userAvailable = user.IsAvailable(date, service.Interval);
-
-            if (!userAvailable)
+            if (!user.IsAvailable(date, service.Interval))
             {
                 _notification.AddBadRequest("Usuário está ocupado.");
                 return default;

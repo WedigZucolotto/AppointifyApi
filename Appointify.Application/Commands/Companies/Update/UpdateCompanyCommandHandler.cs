@@ -35,11 +35,9 @@ namespace Appointify.Application.Commands.Companies.Update
                 return default;
             }
 
-            var userClaims = _httpContext.GetUserClaims();
+            var userId = _httpContext.GetUserId();
 
-            var canEditCompany = company.CanEdit(userClaims);
-
-            if (!canEditCompany)
+            if (!company.IsOwner(userId))
             {
                 _notification.AddUnauthorized("Você não tem permissão para realizar essa operação.");
                 return default;

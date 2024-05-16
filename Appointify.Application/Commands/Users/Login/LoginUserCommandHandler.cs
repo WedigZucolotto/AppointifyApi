@@ -1,5 +1,4 @@
 ﻿using Appointify.Domain.Authentication;
-using Appointify.Domain.Entities.Enums;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
@@ -44,14 +43,13 @@ namespace Appointify.Application.Commands.Users.Login
             }
 
             var token = _jwtProvider.Generate(user);
-            var isOwner = user.Type == UserType.Owner;
 
             return new LoginUserCommandResponse(
                 token, 
-                user.CompleteName, 
+                user.CompleteName,
+                user.IsOwner,
                 user.CompanyId, 
-                user.Id,
-                isOwner);
+                user.Id);
         }
     }
 }

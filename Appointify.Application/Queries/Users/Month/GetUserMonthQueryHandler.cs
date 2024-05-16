@@ -1,5 +1,4 @@
 ﻿using Appointify.Application.Queries.Dtos;
-using Appointify.Application.Queries.Users.Week;
 using Appointify.Domain.Authentication;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
@@ -27,18 +26,11 @@ namespace Appointify.Application.Queries.Users.Month
         public async Task<IEnumerable<GetUserMonthQueryResponse>?> Handle(GetUserMonthQuery query, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(query.Id);
+            var userId = _httpContext.GetUserId();
 
-            if (user == null)
+            if (user == null || userId != query.Id)
             {
                 _notification.AddNotFound("Usuário não encontrado.");
-                return default;
-            }
-
-            var userClaims = _httpContext.GetUserClaims();
-
-            if (user.Id != userClaims.Id)
-            {
-                _notification.AddUnauthorized("Você não tem permissão para realizar essa operação.");
                 return default;
             }
 
@@ -81,7 +73,7 @@ namespace Appointify.Application.Queries.Users.Month
                 var day = date.Day.ToString();
                 int? more = dayEvents.Count > 3 ? dayEvents.Count - 3 : null;
 
-                days.Add(new GetUserMonthQueryResponse(day, weekNameFormated, dayEvents, more));
+                days.Add(new GetUserMonthQueryResponse(day, weekNameFormated, dayEvents.Take(3), more));
             }
 
             return days;

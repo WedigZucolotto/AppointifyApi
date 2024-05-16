@@ -4,7 +4,7 @@
     {
         public string Title { get; set; } = string.Empty;
 
-        public string? Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         public DateTime Date { get; set; }
 
@@ -18,7 +18,7 @@
 
         public Event(
             string title, 
-            string? description,
+            string description,
             DateTime date, 
             User user, 
             Service service)

@@ -26,18 +26,11 @@ namespace Appointify.Application.Queries.Users.Week
         public async Task<IEnumerable<GetUserWeekQueryResponse>?> Handle(GetUserWeekQuery query, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(query.Id);
+            var userId = _httpContext.GetUserId();
 
-            if (user == null)
+            if (user == null || userId != query.Id)
             {
                 _notification.AddNotFound("Usuário não encontrado.");
-                return default;
-            }
-
-            var userClaims = _httpContext.GetUserClaims();
-
-            if (user.Id != userClaims.Id)
-            {
-                _notification.AddUnauthorized("Você não tem permissão para realizar essa operação.");
                 return default;
             }
 

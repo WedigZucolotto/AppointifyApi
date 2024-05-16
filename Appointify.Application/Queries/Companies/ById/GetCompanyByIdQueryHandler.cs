@@ -31,11 +31,9 @@ namespace Appointify.Application.Queries.Companies.ById
                 return default;
             }
 
-            var userClaims = _httpContext.GetUserClaims();
+            var userId = _httpContext.GetUserId();
 
-            var canEditCompany = company.CanEdit(userClaims);
-
-            if (!canEditCompany)
+            if (!company.IsOwner(userId))
             {
                 _notification.AddUnauthorized("Você não tem permissão para realizar essa operação.");
                 return default;
@@ -43,7 +41,6 @@ namespace Appointify.Application.Queries.Companies.ById
 
             return new GetCompanyByIdQueryResponse(
                 company.Id,
-                company.PlanId,
                 company.Name,
                 company.Open.ToString(@"hh\:mm"),
                 company.Close.ToString(@"hh\:mm"));

@@ -15,7 +15,8 @@ namespace Appointify.Infrastructure.Mappings
                .IsRequired();
 
             builder.Property(e => e.Description)
-               .HasColumnName("description");
+               .HasColumnName("description")
+               .IsRequired();
 
             builder.Property(e => e.Date)
                .HasColumnName("date")

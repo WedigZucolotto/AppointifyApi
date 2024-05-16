@@ -11,22 +11,26 @@ namespace Appointify.Application.Commands.Users.Update
         private readonly INotificationContext _notification;
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IHttpContext _httpContext;
 
         public UpdateUserCommandHandler(
             INotificationContext notification,
             IUserRepository userRepository,
-            IPasswordHasher passwordHasher) 
+            IPasswordHasher passwordHasher,
+            IHttpContext httpContext) 
         {
             _notification = notification;
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
+            _httpContext = httpContext;
         }
 
         public async Task<Nothing> Handle(UpdateUserCommand command, CancellationToken cancellationToken) 
         {
             var user = await _userRepository.GetByIdAsync(command.Id);
-            
-            if (user == null)
+            var userId = _httpContext.GetUserId();
+
+            if (user == null || command.Id != userId)
             {
                 _notification.AddNotFound("Usuário não encontrado.");
                 return default;
@@ -46,11 +50,6 @@ namespace Appointify.Application.Commands.Users.Update
             if (!string.IsNullOrEmpty(command.CompleteName))
             {
                 user.CompleteName = command.CompleteName;
-            }
-
-            if (command.IsOwner != null)
-            {
-                user.SetType(command.IsOwner.Value);
             }
 
             _userRepository.Update(user);

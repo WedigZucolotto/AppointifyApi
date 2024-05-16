@@ -32,11 +32,9 @@ namespace Appointify.Application.Queries.Services.ById
                 return default;
             }
 
-            var userClaims = _httpContext.GetUserClaims();
+            var userId = _httpContext.GetUserId();
 
-            var canEditService = service.CanEdit(userClaims);
-
-            if (!canEditService)
+            if (!service.Company.IsOwner(userId))
             {
                 _notification.AddUnauthorized("Você não tem permissão para realizar essa operação.");
                 return default;

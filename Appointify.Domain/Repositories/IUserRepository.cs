@@ -1,5 +1,4 @@
 ﻿using Appointify.Domain.Entities;
-using Appointify.Domain.Entities.Enums;
 
 namespace Appointify.Domain.Repositories
 {
@@ -7,6 +6,6 @@ namespace Appointify.Domain.Repositories
     {
         Task<User?> GetByNameAsync(string name);
         Task<User?> GetByIdToDeleteAsync(Guid id);
-        Task<List<User>> GetFilteredAsync(Guid? companyId, string? name, string? completeName, UserType? type);
+        Task<List<User>> GetFilteredAsync(Guid? companyId, string? name, string? completeName, bool? isOwner);
     }
 }

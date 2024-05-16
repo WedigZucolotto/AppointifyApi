@@ -1,8 +1,4 @@
-﻿using Appointify.Domain.Entities.Enums;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-
-namespace Appointify.Domain.Entities
+﻿namespace Appointify.Domain.Entities
 {
     public class User : Entity
     {
@@ -12,7 +8,7 @@ namespace Appointify.Domain.Entities
 
         public string Password { get; set; } = string.Empty;
 
-        public UserType Type { get; set; }
+        public bool IsOwner { get; set; }
 
         public Guid CompanyId { get; set; }
         
@@ -58,56 +54,6 @@ namespace Appointify.Domain.Entities
             return true;
         }
 
-        public void SetType(bool isOwner)
-        {
-            var permissions = isOwner ? OwnerPermissions() : EmployeePermissions();
-
-            Permissions = permissions
-                .Select(permission => new Permission(this, permission)).ToList();
-            Type = isOwner ? UserType.Owner : UserType.Employee;
-        }
-
-        private string[] EmployeePermissions() => new string[] 
-        {
-            "users:getById",
-            "users:update",
-            "users:getDay",
-            "users:getWeek",
-            "users:getMonth",
-            "services:getOptions"
-        };
-
-        private string[] OwnerPermissions() => new string[]
-        {
-            "companies:getById",
-            "companies:update",
-            "services:getAll",
-            "services: getById",
-            "services:getOptions",
-            "services:create",
-            "services:update",
-            "services:delete",
-            "users:getAll",
-            "users:getById",
-            "users:update",
-            "users:getDay",
-            "users:getWeek",
-            "users:getMonth"
-        };
-
         public User() { }
-
-        public User(
-            string name, 
-            string completeName, 
-            string password,
-            Company company)
-        {
-            Name = name;
-            CompleteName = completeName;
-            Password = password;
-            Company = company;
-            CompanyId = company.Id;
-        }
     }
 }

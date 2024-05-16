@@ -1,7 +1,6 @@
 ﻿using Appointify.Application.Commands.Services.Create;
 using Appointify.Application.Commands.Services.Delete;
 using Appointify.Application.Commands.Services.Update;
-using Appointify.Application.Queries.Services.All;
 using Appointify.Application.Queries.Services.ById;
 using Appointify.Infrastructure.Authentication;
 using MediatR;
@@ -18,14 +17,6 @@ namespace Appointify.Api.Controllers
         public ServicesController(IMediator mediator)
         {
             _mediator = mediator;
-        }
-
-        [HttpGet]
-        [HasPermission(Permissions.Services.GetAll)]
-        public async Task<IActionResult> GetAllAsync([FromQuery] GetAllServicesQuery query)
-        {
-            var services = await _mediator.Send(query);
-            return Ok(services);
         }
 
         [HttpGet("{id}")]

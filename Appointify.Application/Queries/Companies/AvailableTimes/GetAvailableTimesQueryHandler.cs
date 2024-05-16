@@ -46,10 +46,10 @@ namespace Appointify.Application.Queries.Companies.AvailableTimes
                 return default;
             }
 
-            var userSelected = query.UserId != null;
-
             var culture = new CultureInfo("pt-BR");
             var date = DateTime.Parse(query.Date, culture);
+
+            var userSelected = query.UserId != null;
 
             if (userSelected)
             {

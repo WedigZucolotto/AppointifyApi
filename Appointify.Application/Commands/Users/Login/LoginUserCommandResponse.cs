@@ -5,9 +5,9 @@
         public LoginUserCommandResponse(
             string token, 
             string completeName,
+            bool isOwner,
             Guid companyId,
-            Guid id,
-            bool isOwner)
+            Guid id)
         { 
             Token = token;
             CompleteName = completeName;

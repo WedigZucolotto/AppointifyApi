@@ -1,4 +1,5 @@
 ﻿using Appointify.Domain;
+using Appointify.Domain.Authentication;
 using Appointify.Domain.Notifications;
 using Appointify.Domain.Repositories;
 using MediatR;
@@ -9,11 +10,16 @@ namespace Appointify.Application.Commands.Events.Delete
     {
         private readonly INotificationContext _notification;
         private readonly IEventRepository _eventRepository;
+        private readonly IHttpContext _httpContext;
 
-        public DeleteEventCommandHandler(IEventRepository eventRepository, INotificationContext notification)
+        public DeleteEventCommandHandler(
+            IEventRepository eventRepository, 
+            INotificationContext notification,
+            IHttpContext httpContext)
         {
             _notification = notification;
             _eventRepository = eventRepository;
+            _httpContext = httpContext;
         }
 
         public async Task<Nothing> Handle(DeleteEventCommand command, CancellationToken cancellationToken) 
@@ -23,6 +29,14 @@ namespace Appointify.Application.Commands.Events.Delete
             if (_event == null)
             {
                 _notification.AddNotFound("Evento não encontrado.");
+                return default;
+            }
+
+            var userId = _httpContext.GetUserId();
+
+            if (_event.UserId != userId)
+            {
+                _notification.AddUnauthorized("Você não tem permissão para realizar essa operação.");
                 return default;
             }
 

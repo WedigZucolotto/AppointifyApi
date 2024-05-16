@@ -1,7 +1,4 @@
-﻿using Appointify.Application.Commands.Companies.Create;
-using Appointify.Application.Commands.Companies.Delete;
-using Appointify.Application.Commands.Companies.Update;
-using Appointify.Application.Queries.Companies.All;
+﻿using Appointify.Application.Commands.Companies.Update;
 using Appointify.Application.Queries.Companies.AvailableTimes;
 using Appointify.Application.Queries.Companies.ById;
 using Appointify.Application.Queries.Companies.ToSchedule;
@@ -21,14 +18,6 @@ namespace Appointify.Api.Controllers
         {
             _mediator = mediator;
         }
-        
-        [HttpGet]
-        [HasPermission(Permissions.Companies.GetAll)]
-        public async Task<IActionResult> GetAllAsync([FromQuery] GetAllCompaniesQuery query)
-        {
-            var companies = await _mediator.Send(query);
-            return Ok(companies);
-        }
 
         [HttpGet("{id}")]
         [HasPermission(Permissions.Companies.GetById)]
@@ -38,27 +27,11 @@ namespace Appointify.Api.Controllers
             return Ok(company);
         }
 
-        [HttpPost]
-        [HasPermission(Permissions.Companies.Create)]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateCompanyCommand command)
-        {
-            await _mediator.Send(command);
-            return NoContent();
-        }
-
         [HttpPut("{id}")]
         [HasPermission(Permissions.Companies.Update)]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateCompanyCommand command)
         {
             await _mediator.Send(command.WithId(id));
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        [HasPermission(Permissions.Companies.Delete)]
-        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
-        {
-            await _mediator.Send(new DeleteCompanyCommand(id));
             return NoContent();
         }
 

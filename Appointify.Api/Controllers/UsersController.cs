@@ -1,8 +1,5 @@
-﻿using Appointify.Application.Commands.Users.Create;
-using Appointify.Application.Commands.Users.Delete;
-using Appointify.Application.Commands.Users.Login;
+﻿using Appointify.Application.Commands.Users.Login;
 using Appointify.Application.Commands.Users.Update;
-using Appointify.Application.Queries.Users.All;
 using Appointify.Application.Queries.Users.ById;
 using Appointify.Application.Queries.Users.Day;
 using Appointify.Application.Queries.Users.Month;
@@ -22,14 +19,6 @@ namespace Appointify.Api.Controllers
         public UsersController(IMediator mediator)
         {
             _mediator = mediator;
-        }
-
-        [HttpGet]
-        [HasPermission(Permissions.Users.GetAll)]
-        public async Task<IActionResult> GetAllAsync([FromQuery] GetAllUsersQuery query)
-        {
-            var users = await _mediator.Send(query);
-            return Ok(users);
         }
 
         [HttpGet("{id}")]
@@ -72,27 +61,11 @@ namespace Appointify.Api.Controllers
             return Ok(response);
         }
 
-        [HttpPost()]
-        [HasPermission(Permissions.Users.Create)]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateUserCommand command)
-        {
-            await _mediator.Send(command);
-            return NoContent();
-        }
-
         [HttpPut("{id}")]
         [HasPermission(Permissions.Users.Update)]
         public async Task<IActionResult> UpdateUserAsync([FromRoute] Guid id, [FromBody] UpdateUserCommand command)
         {
             await _mediator.Send(command.WithId(id));
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        [HasPermission(Permissions.Users.Delete)]
-        public async Task<IActionResult> DeleteUserAsync([FromRoute] Guid id)
-        {
-            await _mediator.Send(new DeleteUserCommand(id));
             return NoContent();
         }
     }
