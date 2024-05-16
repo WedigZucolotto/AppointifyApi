@@ -65,6 +65,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("companies:getById", policy => policy.RequireClaim("permissions", "companies:getById"));
     options.AddPolicy("companies:update", policy => policy.RequireClaim("permissions", "companies:update"));
+    options.AddPolicy("companies:services", policy => policy.RequireClaim("permissions", "companies:services"));
     options.AddPolicy("services:getById", policy => policy.RequireClaim("permissions", "services:getById"));
     options.AddPolicy("services:create", policy => policy.RequireClaim("permissions", "services:create"));
     options.AddPolicy("services:update", policy => policy.RequireClaim("permissions", "services:update"));

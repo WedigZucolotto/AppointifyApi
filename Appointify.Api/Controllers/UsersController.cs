@@ -53,7 +53,6 @@ namespace Appointify.Api.Controllers
             return Ok(month);
         }
 
-
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginUserCommand command)
         {

@@ -5,6 +5,7 @@ using Appointify.Application.Queries.Companies.ToSchedule;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Appointify.Infrastructure.Authentication;
+using Appointify.Application.Queries.Companies.Services;
 
 namespace Appointify.Api.Controllers
 {
@@ -47,6 +48,14 @@ namespace Appointify.Api.Controllers
         {
             var company = await _mediator.Send(new GetCompanyToScheduleQuery(id));
             return Ok(company);
+        }
+
+        [HttpGet("{id}/services")]
+        [HasPermission(Permissions.Companies.Services)]
+        public async Task<IActionResult> GetServicesAsync([FromRoute] Guid id)
+        {
+            var services = await _mediator.Send(new GetCompanyServicesQuery(id));
+            return Ok(services);
         }
     }
 }

@@ -6,6 +6,7 @@
         {
             public const string GetById = "companies:getById";
             public const string Update = "companies:update";
+            public const string Services = "companies:services";
         }
 
         public static class Events
