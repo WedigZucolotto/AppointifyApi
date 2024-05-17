@@ -20,7 +20,7 @@ namespace Appointify.Infrastructure.Repositories
 
         public override Task<Service?> GetByIdAsync(Guid id) =>
             Query
-                .Include(s => s.Company).ThenInclude(c => c.Plan)
+                .Include(s => s.Company).ThenInclude(c => c.Users)
                 .FirstOrDefaultAsync(s => s.Id == id);
     }
 }
