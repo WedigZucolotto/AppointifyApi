@@ -14,7 +14,13 @@ namespace Appointify.Api.Extensions
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("http://localhost:5173")
+                    var origins = new string[]
+                    {
+                        "http://localhost:5173",
+                        "https://appointifyapp.onrender.com/"
+                    };
+
+                    builder.WithOrigins(origins)
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
