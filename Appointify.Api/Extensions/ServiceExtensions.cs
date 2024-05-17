@@ -17,7 +17,7 @@ namespace Appointify.Api.Extensions
                     var origins = new string[]
                     {
                         "http://localhost:5173",
-                        "https://appointifyapp.onrender.com/"
+                        "https://appointifyapp.onrender.com"
                     };
 
                     builder.WithOrigins(origins)
