@@ -62,8 +62,9 @@ namespace Appointify.Application.Queries.Users.Week
                 var weekName = culture.DateTimeFormat.GetDayName(date.DayOfWeek);
                 var weekNameFormated = weekName[..3].ToUpper();
                 var day = date.Day.ToString();
+                var isPastDate = date < DateTime.Today;
 
-                days.Add(new GetUserWeekQueryResponse(day, weekNameFormated, hourEvents));
+                days.Add(new GetUserWeekQueryResponse(day, weekNameFormated, hourEvents, isPastDate));
             }
 
             return days;

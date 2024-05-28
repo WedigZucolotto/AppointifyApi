@@ -36,6 +36,7 @@ namespace Appointify.Application.Queries.Users.Day
 
             var culture = new CultureInfo("pt-BR");
             var date = DateTime.Parse(query.Date, culture);
+            var isPastDate = date < DateTime.Today;
 
             var hourEvents = new Dictionary<string, IEnumerable<EventDto>>();
 
@@ -55,7 +56,7 @@ namespace Appointify.Application.Queries.Users.Day
             var weekNameFormated = weekName[..3].ToUpper();
             var day = date.Day.ToString();
 
-            return new GetUserDayQueryResponse(day, weekNameFormated, hourEvents);
+            return new GetUserDayQueryResponse(day, weekNameFormated, hourEvents, isPastDate);
         }
     }
 }

@@ -27,14 +27,12 @@ namespace Appointify.Application.Queries.Companies.ToSchedule
                 return default;
             }
 
-            var minDate = DateTime.Today;
-            var maxDate = minDate.AddDays(30);
+            var maxDate = DateTime.Today.AddDays(30);
             var unavaliableDates = GetUnavaliableDates(company);
             var showExtraFields = company.Plan.ShowExtraFields;
             var services = company.Services.Select(s => new OptionDto(s.Name, s.Id));
 
             return new GetCompanyToScheduleQueryResponse(
-                minDate, 
                 maxDate, 
                 unavaliableDates, 
                 showExtraFields, 

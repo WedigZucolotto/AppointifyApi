@@ -53,7 +53,7 @@ namespace Appointify.Application.Queries.Users.Month
             {
                 var dayEvents = new List<EventDto>();
 
-                for (var hours = 0; hours < 24 || dayEvents.Count == 3; hours++)
+                for (var hours = 0; hours < 24; hours++)
                 {
                     var dateStart = date.AddHours(hours);
                     var dateEnd = dateStart.AddHours(1);
@@ -71,9 +71,10 @@ namespace Appointify.Application.Queries.Users.Month
                 var weekName = culture.DateTimeFormat.GetDayName(date.DayOfWeek);
                 var weekNameFormated = weekName[..3].ToUpper();
                 var day = date.Day.ToString();
+                var isPastDate = date < DateTime.Today;
                 int? more = dayEvents.Count > 3 ? dayEvents.Count - 3 : null;
 
-                days.Add(new GetUserMonthQueryResponse(day, weekNameFormated, dayEvents.Take(3), more));
+                days.Add(new GetUserMonthQueryResponse(day, weekNameFormated, dayEvents.Take(3), isPastDate, more));
             }
 
             return days;

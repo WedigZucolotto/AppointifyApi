@@ -32,6 +32,16 @@ namespace Appointify.Application.Commands.Events.Create
 
         public async Task<Nothing> Handle(CreateEventCommand command, CancellationToken cancellationToken) 
         {
+            var culture = new CultureInfo("pt-BR");
+            var date = DateTime.Parse(command.Date, culture);
+            var today = DateTime.Now;
+
+            if (date < today)
+            {
+                _notification.AddBadRequest("Horário marcado deve ser no futuro.");
+                return default;
+            }
+
             var service = await _serviceRepository.GetByIdAsync(command.ServiceId);
 
             if (service == null)
@@ -41,7 +51,6 @@ namespace Appointify.Application.Commands.Events.Create
             }
 
             var userId = _httpContext.GetUserId() ?? command.UserId;
-
             var user = await _userRepository.GetByIdAsync(userId);
 
             if (user == null) 
@@ -50,23 +59,13 @@ namespace Appointify.Application.Commands.Events.Create
                 return default;
             }
 
-            var title = $"{command.Name} - {service.Name}";
-
-            var description = 
-                $"Marcado por: {command.Name} às {DateTime.Now.ToLocalTime()}\n" +
-                $"Contato: {command.Contact}\n" +
-                $"Serviço: {service.Name}";
-            
-            var culture = new CultureInfo("pt-BR");
-            var date = DateTime.Parse(command.Date, culture);
-
             if (!user.IsAvailable(date, service.Interval))
             {
                 _notification.AddBadRequest("Usuário está ocupado.");
                 return default;
             }
 
-            var _event = new Event(title, description, date, user, service);
+            var _event = new Event(command.Name, date, user, service);
 
             _eventRepository.Add(_event);
             await _eventRepository.UnitOfWork.CommitAsync();
