@@ -28,19 +28,26 @@
                 var date = initialDate.Add(time);
                 var _event = Events.FirstOrDefault(e => e.Date == date);
 
+                if (interval == serviceInterval)
+                {
+                    availableTimes.Add(date.TimeOfDay - serviceInterval);
+                    interval = new TimeSpan();
+                }
+
                 if (_event != null)
                 {
                     time += _event.Service.Interval;
                     interval = new TimeSpan();
                 }
 
-                if (interval == serviceInterval)
-                {
-                    availableTimes.Add(date.TimeOfDay);
-                    interval = new TimeSpan();
-                }
-
                 interval += TimeSpan.FromMinutes(1);
+            }
+
+            if (initialDate == DateTime.Today)
+            {
+                return availableTimes
+                    .Where(time => time > DateTime.Now.TimeOfDay)
+                    .ToList();
             }
             return availableTimes;
         }
