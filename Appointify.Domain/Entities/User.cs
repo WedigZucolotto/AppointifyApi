@@ -1,4 +1,7 @@
-﻿namespace Appointify.Domain.Entities
+﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Globalization;
+
+namespace Appointify.Domain.Entities
 {
     public class User : Entity
     {
@@ -43,7 +46,10 @@
                 interval += TimeSpan.FromMinutes(1);
             }
 
-            if (initialDate == DateTime.Today)
+            var culture = new CultureInfo("pt-BR");
+            var today = DateTime.Today;
+
+            if (initialDate == today)
             {
                 return availableTimes
                     .Where(time => time > DateTime.Now.TimeOfDay)
