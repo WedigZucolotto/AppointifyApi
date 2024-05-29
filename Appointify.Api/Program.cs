@@ -105,15 +105,14 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
-// Configurar o middleware de localiza��o
-// var supportedCultures = new[] { cultureInfo };
-// var localizationOptions = new RequestLocalizationOptions
-// {
-//     DefaultRequestCulture = new RequestCulture(cultureInfo),
-//     SupportedCultures = supportedCultures,
-//     SupportedUICultures = supportedCultures
-// };
-// app.UseRequestLocalization(localizationOptions);
+var supportedCultures = new[] { cultureInfo };
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(cultureInfo),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+};
+app.UseRequestLocalization(localizationOptions);
 
 app.UseAuthentication();
 
