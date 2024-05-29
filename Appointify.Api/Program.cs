@@ -21,6 +21,8 @@ var cultureInfo = new CultureInfo("pt-BR");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
+var SAMTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     var supportedCultures = new[] { cultureInfo };
