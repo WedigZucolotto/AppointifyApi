@@ -45,10 +45,13 @@
 
             var today = DateTime.Today;
 
+            var SAMTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
+            var now = TimeZoneInfo.ConvertTime(DateTime.Now, SAMTimeZone).TimeOfDay;
+
             if (initialDate == today)
             {
                 return availableTimes
-                    .Where(time => time > DateTime.Now.TimeOfDay)
+                    .Where(time => time > now)
                     .ToList();
             }
             return availableTimes;

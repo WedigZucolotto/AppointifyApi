@@ -17,20 +17,6 @@ using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var cultureInfo = new CultureInfo("pt-BR");
-CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-
-var SAMTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
-
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    var supportedCultures = new[] { cultureInfo };
-    options.DefaultRequestCulture = new RequestCulture(cultureInfo);
-    options.SupportedCultures = supportedCultures;
-    options.SupportedUICultures = supportedCultures;
-});
-
 builder.Services
     .AddControllers(options => options.Filters.Add<NotificationFilter>())
     .ConfigureApiBehaviorOptions(options =>
@@ -44,9 +30,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpContextAccessor();
-
-//builder.Services.AddMediatR(
-//    cfg => cfg.RegisterServicesFromAssembly(typeof(GetCompanyByIdQueryHandler).Assembly));
 
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(new[] {
     typeof(GetCompanyToScheduleQueryHandler).Assembly,
@@ -106,15 +89,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 
 app.UseHttpsRedirection();
-
-var supportedCultures = new[] { cultureInfo };
-var localizationOptions = new RequestLocalizationOptions
-{
-    DefaultRequestCulture = new RequestCulture(cultureInfo),
-    SupportedCultures = supportedCultures,
-    SupportedUICultures = supportedCultures
-};
-app.UseRequestLocalization(localizationOptions);
 
 app.UseAuthentication();
 
