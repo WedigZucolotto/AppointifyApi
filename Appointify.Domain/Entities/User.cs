@@ -23,7 +23,7 @@
             var availableTimes = new List<TimeSpan>();
             var interval = new TimeSpan();
 
-            for (var time = Company.Open; time < Company.Close; time += TimeSpan.FromMinutes(1))
+            for (var time = Company.Open; time <= Company.Close; time += TimeSpan.FromMinutes(1))
             {
                 var date = initialDate.Add(time);
                 var _event = Events.FirstOrDefault(e => e.Date == date);
@@ -43,15 +43,13 @@
                 interval += TimeSpan.FromMinutes(1);
             }
 
-            var today = DateTime.Today;
-
             var SAMTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
-            var now = TimeZoneInfo.ConvertTime(DateTime.Now, SAMTimeZone).TimeOfDay;
+            var now = TimeZoneInfo.ConvertTime(DateTime.Now, SAMTimeZone);
 
-            if (initialDate == today)
+            if (initialDate == now.Date)
             {
                 return availableTimes
-                    .Where(time => time > now)
+                    .Where(time => time > now.TimeOfDay)
                     .ToList();
             }
             return availableTimes;
