@@ -12,8 +12,22 @@ using FluentValidation;
 using MediatR;
 using Appointify.Api.Extensions;
 using Appointify.Infrastructure.Authentication;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var cultureInfo = new CultureInfo("pt-BR");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[] { cultureInfo };
+    options.DefaultRequestCulture = new RequestCulture(cultureInfo);
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 
 builder.Services
     .AddControllers(options => options.Filters.Add<NotificationFilter>())
@@ -79,7 +93,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("events:delete", policy => policy.RequireClaim("permissions", "events:delete"));
 });
 
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -91,6 +104,16 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 
 app.UseHttpsRedirection();
+
+// Configurar o middleware de localiza��o
+// var supportedCultures = new[] { cultureInfo };
+// var localizationOptions = new RequestLocalizationOptions
+// {
+//     DefaultRequestCulture = new RequestCulture(cultureInfo),
+//     SupportedCultures = supportedCultures,
+//     SupportedUICultures = supportedCultures
+// };
+// app.UseRequestLocalization(localizationOptions);
 
 app.UseAuthentication();
 

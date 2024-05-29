@@ -1,7 +1,4 @@
-﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System.Globalization;
-
-namespace Appointify.Domain.Entities
+﻿namespace Appointify.Domain.Entities
 {
     public class User : Entity
     {
@@ -46,16 +43,12 @@ namespace Appointify.Domain.Entities
                 interval += TimeSpan.FromMinutes(1);
             }
 
-            var SAMTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
-            var now = DateTime.Today;
-            var SAMNow = TimeZoneInfo.ConvertTime(now, SAMTimeZone);
             var today = DateTime.Today;
-            var SAMToday = TimeZoneInfo.ConvertTime(today, SAMTimeZone);
 
-            if (initialDate == SAMToday)
+            if (initialDate == today)
             {
                 return availableTimes
-                    .Where(time => time > SAMNow.TimeOfDay)
+                    .Where(time => time > DateTime.Now.TimeOfDay)
                     .ToList();
             }
             return availableTimes;
