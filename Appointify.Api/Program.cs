@@ -12,8 +12,6 @@ using FluentValidation;
 using MediatR;
 using Appointify.Api.Extensions;
 using Appointify.Infrastructure.Authentication;
-using Microsoft.AspNetCore.Localization;
-using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 

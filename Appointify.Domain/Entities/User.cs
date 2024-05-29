@@ -46,13 +46,16 @@ namespace Appointify.Domain.Entities
                 interval += TimeSpan.FromMinutes(1);
             }
 
-            var culture = new CultureInfo("pt-BR");
+            var SAMTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
+            var now = DateTime.Today;
+            var SAMNow = TimeZoneInfo.ConvertTime(now, SAMTimeZone);
             var today = DateTime.Today;
+            var SAMToday = TimeZoneInfo.ConvertTime(today, SAMTimeZone);
 
-            if (initialDate == today)
+            if (initialDate == SAMToday)
             {
                 return availableTimes
-                    .Where(time => time > DateTime.Now.TimeOfDay)
+                    .Where(time => time > SAMNow.TimeOfDay)
                     .ToList();
             }
             return availableTimes;
