@@ -34,7 +34,8 @@ namespace Appointify.Application.Commands.Events.Create
         {
             var culture = new CultureInfo("pt-BR");
             var date = DateTime.Parse(command.Date, culture);
-            var today = DateTime.Now;
+            var SAMTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
+            var today = TimeZoneInfo.ConvertTime(DateTime.Today, SAMTimeZone);
 
             if (date < today)
             {
