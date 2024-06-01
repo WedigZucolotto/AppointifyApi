@@ -28,15 +28,17 @@
                 var date = initialDate.Add(time);
                 var _event = Events.FirstOrDefault(e => e.Date == date);
 
-                if (interval == serviceInterval)
-                {
-                    availableTimes.Add(date.TimeOfDay - serviceInterval);
-                    interval = new TimeSpan();
-                }
-
                 if (_event != null)
                 {
                     time += _event.Service.Interval;
+                    time -= new TimeSpan(0, 1, 0);
+                    interval = _event.Service.Interval;
+                    continue;
+                }
+
+                if (interval == serviceInterval)
+                {
+                    availableTimes.Add(date.TimeOfDay);
                     interval = new TimeSpan();
                 }
 

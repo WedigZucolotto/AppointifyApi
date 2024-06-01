@@ -6,11 +6,13 @@
             Guid id,
             string title,
             string date, 
+            string time, 
             string serviceName)
         {
             Id = id;
             Title = title;
             Date = date;
+            Time = time;
             ServiceName = serviceName;
         }
 
@@ -19,6 +21,8 @@
         public string Title { get; set; } = string.Empty;
 
         public string Date { get; set; } = string.Empty;
+
+        public string Time { get; set; } = string.Empty;
 
         public string ServiceName { get; set; } = string.Empty;
     }

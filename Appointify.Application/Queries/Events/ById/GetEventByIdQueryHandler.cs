@@ -42,7 +42,8 @@ namespace Appointify.Application.Queries.Events.ById
             return new GetEventByIdQueryResponse(
                 _event.Id,
                 _event.Title,
-                _event.Date.ToShortDateString(), 
+                _event.Date.ToShortDateString(),
+                _event.Date.TimeOfDay.ToString(),
                 _event.Service.Name);
         }
     }
